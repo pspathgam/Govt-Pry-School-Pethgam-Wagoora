@@ -17,18 +17,20 @@
         <img src="file_0000000044d471fab24858b72be56d0a.png" alt="GPS School Logo">
         <div>
             <h1>Government Primary School Pethgam Wagoora</h1>
-            <p style="font-size: 0.8rem; margin: 0; opacity: 0.8; letter-spacing: 1px;">SMART MANAGEMENT SYSTEM 2026</p>
+            <p class="sub-header">SMART MANAGEMENT SYSTEM 2026</p>
         </div>
     </div>
     <div id="liveDateTime" aria-live="polite"></div>
 </header>
 
-<nav aria-label="Main Navigation">
+<div class="menu-toggle" onclick="toggleMobileMenu()">☰ Menu</div>
+
+<nav id="mainNav" aria-label="Main Navigation">
     <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Administration ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Administration ▾</a>
             <div class="dropdown-content">
                 <a href="#about">About School</a>
                 <a href="#staff">Staff Statement</a>
@@ -38,7 +40,7 @@
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Academics ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Academics ▾</a>
             <div class="dropdown-content">
                 <a href="#routine">Class Routine</a>
                 <a href="#calendar">Academic Calendar</a>
@@ -48,7 +50,7 @@
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Management ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Management ▾</a>
             <div class="dropdown-content">
                 <a href="#attendanceSection">Daily Attendance</a>
                 <a href="#generator-section">Document Generator</a>
@@ -58,7 +60,7 @@
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Diaries ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Diaries ▾</a>
             <div class="dropdown-content">
                 <a href="#diaries">Teacher's Diary</a>
                 <a href="#diaries">Student's Diary</a>
@@ -84,7 +86,7 @@
                 <input type="number" id="totalStudents" placeholder="Total Students">
                 <input type="number" id="presentStudents" placeholder="Present Today">
             </div>
-            <button id="attendanceBtn">Update Record</button>
+            <button id="attendanceBtn" class="primary-btn">Update Record</button>
             <p id="attendanceResult" style="margin-top:10px; font-weight:bold;"></p>
         </div>
 
@@ -101,28 +103,28 @@
             <input type="text" id="mainName" placeholder="Student/Staff Name">
             <input type="text" id="detail1" placeholder="Class / Designation">
             <input type="text" id="detail2" placeholder="Roll No / Details">
-            <button onclick="masterGeneratePDF()" style="background:#ffcc00; color:#000;">Download PDF</button>
+            <button onclick="masterGeneratePDF()" class="pdf-btn">Download PDF</button>
         </div>
 
         <div class="card">
             <h3>🌤 Weather & Notices</h3>
             <p id="weather">Fetching weather...</p>
-            <hr style="border:0.5px solid rgba(255,255,255,0.1); margin:15px 0;">
-            <p style="font-size: 0.85rem; text-align: left;">📢 <strong>Notice:</strong> Staff meeting scheduled for Saturday at 2:00 PM.</p>
+            <hr class="card-divider">
+            <p style="font-size: 0.85rem; text-align: left;">📢 <strong>Notice:</strong> Admissions 2026 Session starting soon.</p>
         </div>
     </section>
 
     <section id="diaries" class="info-section">
         <h2>Digital School Diaries</h2>
-        <div class="diary-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-            <div class="card" style="flex: 1; min-width: 300px;">
+        <div class="diary-grid">
+            <div class="card diary-card">
                 <h4>Teacher's Daily Diary</h4>
                 <textarea id="teacherNote" placeholder="Record topics covered today..." rows="4"></textarea>
                 <button onclick="alert('Diary Saved Locally!')">Save Entry</button>
             </div>
-            <div class="card" style="flex: 1; min-width: 300px;">
+            <div class="card diary-card">
                 <h4>Student's Diary</h4>
-                <div style="text-align: left; font-size: 0.9rem;">
+                <div class="diary-entries">
                     <p>📅 <strong>Feb 17:</strong> Math - Solve Page 45.</p>
                     <p>📅 <strong>Feb 16:</strong> English - Read Chapter 3.</p>
                 </div>
@@ -130,37 +132,18 @@
         </div>
     </section>
 
-    <section id="middaymeal" class="info-section">
-        <h2>PM-POSHAN (Mid-Day Meal)</h2>
-        <div class="card" style="max-width: 700px; margin: auto;">
-            <p>Our school provides daily hot cooked meals as per government scale to ensure student health and nutrition.</p>
-            <button onclick="alert('MDM Dashboard Opening...')">View Weekly Menu</button>
-        </div>
-    </section>
-
     <div style="position: absolute; left: -9999px; top: 0;">
-        <div id="master-template" style="width: 750px; padding: 50px; color: black; background: white; font-family: 'Times New Roman', serif; border: 12px double #0d47a1; line-height: 1.6;">
+        <div id="master-template" class="pdf-print-area">
             <center>
-                <h1 style="margin: 0; color: #0d47a1; font-size: 26px;">GOVERNMENT PRIMARY SCHOOL</h1>
-                <h2 style="margin: 0; font-size: 20px;">PETHGAM WAGOORA</h2>
-                <p style="margin: 5px; font-weight: bold;">District: Baramulla | Zone: Wagoora | UDISE: 0102030405</p>
-                <hr style="border: 1px solid #000; margin: 20px 0;">
+                <h1 class="school-title">GOVERNMENT PRIMARY SCHOOL</h1>
+                <h2 class="school-loc">PETHGAM WAGOORA</h2>
+                <p class="school-meta">District: Baramulla | Zone: Wagoora | UDISE: 0102030405</p>
+                <hr class="pdf-hr">
             </center>
-
-            <div id="pdf-dynamic-content" style="min-height: 300px; font-size: 18px;">
-                </div>
-
-            <div style="margin-top: 80px; display: flex; justify-content: space-between; align-items: flex-end;">
-                <div>
-                    <p>Date: <span id="pdf-date-field"></span><br>
-                    Place: Pethgam Wagoora</p>
-                </div>
-                <div style="text-align: center;">
-                    <br><br>
-                    <p><strong>__________________________</strong><br>
-                    Headmaster / Issuing Authority<br>
-                    GPS Pethgam Wagoora</p>
-                </div>
+            <div id="pdf-dynamic-content" class="pdf-body"></div>
+            <div class="pdf-footer">
+                <div><p>Date: <span id="pdf-date-field"></span><br>Place: Pethgam Wagoora</p></div>
+                <div style="text-align: center;"><p><strong>__________________________</strong><br>Headmaster / Authority</p></div>
             </div>
         </div>
     </div>
@@ -171,7 +154,21 @@
 </footer>
 
 <script>
-    // 1. Live Clock
+    /* 1. Mobile Menu Toggle */
+    function toggleMobileMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
+
+    /* 2. Dropdown Toggle for Mobile Taps */
+    function toggleDropdown(el) {
+        if (window.innerWidth <= 768) {
+            const content = el.nextElementSibling;
+            content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+        }
+    }
+
+    /* 3. Live Clock */
     function updateClock() {
         const dt = document.getElementById('liveDateTime');
         if(dt) dt.innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
@@ -179,7 +176,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // 2. Weather API (Wagoora)
+    /* 4. Weather API */
     async function loadWeather() {
         try {
             const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=34.20&longitude=74.34&current_weather=true");
@@ -187,11 +184,11 @@
             if(data.current_weather) {
                 document.getElementById('weather').innerText = `Wagoora: ${Math.round(data.current_weather.temperature)}°C 🌤`;
             }
-        } catch(e) { document.getElementById('weather').innerText = "Weather Temp: 12°C 🌤"; }
+        } catch(e) { document.getElementById('weather').innerText = "Weather: 12°C 🌤"; }
     }
     window.onload = loadWeather;
 
-    // 3. Attendance Logic
+    /* 5. Attendance Logic */
     document.getElementById('attendanceBtn').addEventListener('click', function() {
         const total = parseInt(document.getElementById('totalStudents').value);
         const present = parseInt(document.getElementById('presentStudents').value);
@@ -206,92 +203,52 @@
         }
     });
 
-    // 4. Update Input Hints
+    /* 6. Placeholder Logic */
     function updatePlaceholders() {
         const type = document.getElementById('docType').value;
         const d1 = document.getElementById('detail1');
         const d2 = document.getElementById('detail2');
-        
         if(type === 'mdm') { d1.placeholder = "Total Meals Served"; d2.placeholder = "Month & Year"; }
         else if(type === 'staff') { d1.placeholder = "Designation"; d2.placeholder = "Qualification/ID"; }
         else if(type === 'marksheet') { d1.placeholder = "Class"; d2.placeholder = "Session (e.g. 2025-26)"; }
         else { d1.placeholder = "Class / Designation"; d2.placeholder = "Roll No / Details"; }
     }
 
-    // 5. Master PDF Generation
+    /* 7. PDF Logic */
     function masterGeneratePDF() {
         const type = document.getElementById('docType').value;
         const name = document.getElementById('mainName').value;
         const d1 = document.getElementById('detail1').value;
         const d2 = document.getElementById('detail2').value;
-        
         if(!name) return alert("Please enter Name/Title");
 
         const content = document.getElementById('pdf-dynamic-content');
         document.getElementById('pdf-date-field').innerText = new Date().toLocaleDateString('en-IN');
 
-        // Logic Switcher
-        let html = "";
-        const centerStyle = "style='text-align:center; text-decoration:underline; margin-bottom:30px;'";
-
+        let html = `<h3 style="text-align:center; text-decoration:underline; margin-bottom:20px;">${type.toUpperCase()}</h3>`;
+        
         if(type === 'bonafide') {
-            html = `<h3 ${centerStyle}>BONAFIDE CERTIFICATE</h3>
-                    <p style="text-indent: 50px;">This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of this institution, currently studying in <b>Class ${d1}</b> under <b>Roll No ${d2}</b>. His/Her conduct has remained satisfactory during the period.</p>`;
-        } 
-        else if(type === 'marksheet') {
-            html = `<h3 ${centerStyle}>STUDENT MARKS SHEET</h3>
-                    <p><b>Name:</b> ${name} | <b>Class:</b> ${d1} | <b>Session:</b> ${d2}</p>
-                    <table border="1" style="width:100%; border-collapse:collapse; margin-top:20px; text-align:center;">
+            html += `<p>This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> under Roll No <b>${d2}</b>. Conduct: Satisfactory.</p>`;
+        } else if(type === 'marksheet') {
+            html += `<p><b>Name:</b> ${name} | <b>Class:</b> ${d1} | <b>Session:</b> ${d2}</p>
+                     <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
                         <tr style="background:#eee;"><th>Subject</th><th>Max Marks</th><th>Obtained</th></tr>
-                        <tr><td>English</td><td>100</td><td>---</td></tr>
-                        <tr><td>Mathematics</td><td>100</td><td>---</td></tr>
-                        <tr><td>Science / EVS</td><td>100</td><td>---</td></tr>
-                        <tr><td>Urdu / Kashmiri</td><td>100</td><td>---</td></tr>
-                    </table>`;
-        }
-        else if(type === 'staff') {
-            html = `<h3 ${centerStyle}>STAFF STATEMENT</h3>
-                    <p>The following official is currently posted at GPS Pethgam Wagoora:</p>
-                    <table border="1" style="width:100%; border-collapse:collapse; margin-top:20px;">
-                        <tr style="background:#eee;"><th>Name</th><th>Designation</th><th>Qualification/ID</th></tr>
-                        <tr><td>${name}</td><td>${d1}</td><td>${d2}</td></tr>
-                    </table>`;
-        }
-        else if(type === 'mdm') {
-            html = `<h3 ${centerStyle}>MDM UTILIZATION CERTIFICATE</h3>
-                    <p>Certified that Mid-Day Meals (PM-POSHAN) were served to students for the month of <b>${d2}</b>.</p>
-                    <ul>
-                        <li>Total Beneficiaries: ${name}</li>
-                        <li>Total Meals Served: ${d1}</li>
-                    </ul>`;
-        }
-        else if(type === 'duty') {
-            html = `<h3 ${centerStyle}>DUTY CERTIFICATE</h3>
-                    <p>This is to certify that <b>${name}</b> (${d1}) has performed official duty regarding <b>${d2}</b> at this school on ${new Date().toLocaleDateString()}.</p>`;
-        }
-        else {
-            html = `<h3 ${centerStyle}>OFFICIAL ROLL STATEMENT</h3>
-                    <p>Class: <b>${d1}</b> | Enrollment: <b>${name}</b></p>
-                    <p>Details: ${d2}</p>`;
+                        <tr><td>English</td><td>100</td><td>---</td></tr><tr><td>Math</td><td>100</td><td>---</td></tr>
+                     </table>`;
+        } else {
+            html += `<p>Detail for <b>${name}</b>: ${d1}, ${d2}</p>`;
         }
 
         content.innerHTML = html;
-
-        // Generate PDF
         const element = document.getElementById('master-template');
-        const opt = {
-            margin: 0.5,
-            filename: `${type}_report.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
+        html2pdf().from(element).save(`${type}_report.pdf`);
     }
 
-    function chatOpen() { alert("AI Assistant: How can I help with Pethgam School records today?"); }
+    function chatOpen() { alert("AI Assistant: Ready to help GPS Pethgam!"); }
 </script>
 
 </body>
 </html>
 
+                                html = `<h3 ${centerStyle}>STAFF STATEMENT</h3>
+                    
