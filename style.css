@@ -1,4 +1,8 @@
-/* Smooth transitions and basic resets */
+/* Core Reset & Smooth Scrolling */
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -10,175 +14,197 @@ body {
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #ffffff;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* Header & Logo Section */
+/* Glassmorphism Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 5%;
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1100;
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .logo-section img {
-  height: 70px;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+  height: 60px;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
 .logo-section h1 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 0;
+  background: linear-gradient(to right, #fff, #ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-#liveDateTime {
-  font-weight: 300;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-/* Navigation - Sticky and Clean */
+/* Modern Dropdown Navigation */
 nav {
   background: #112d4e;
-  padding: 12px;
-  text-align: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
-nav a {
+.nav-links {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links > li {
+  position: relative;
+}
+
+.nav-links a {
+  display: block;
   color: #cbdcf7;
-  margin: 5px 12px;
+  padding: 15px 20px;
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
   transition: all 0.3s ease;
-  padding: 5px 10px;
 }
 
-nav a:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+.nav-links a:hover, .dropbtn:hover {
+  color: #ffcc00;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Dropdown Content - FIXED ISSUE */
+.dropdown-content {
+  display: none; /* Keep hidden by default */
+  position: absolute;
+  background: #1a3c5a;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-content a {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Show only on hover */
+  animation: fadeIn 0.3s ease forwards;
 }
 
 /* Hero Section */
 .hero {
   text-align: center;
-  padding: 100px 20px;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  padding: 120px 20px;
+  background: url('https://www.transparenttextures.com/patterns/cubes.png'), 
+              radial-gradient(circle, rgba(68, 138, 255, 0.1) 0%, transparent 80%);
 }
 
 .hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
 }
 
 .hero button {
-  padding: 14px 35px;
-  background: #ffcc00; /* Gold */
+  padding: 15px 40px;
+  background: #ffcc00;
   color: #0f2027;
   border: none;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   border-radius: 50px;
-  font-size: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-  margin-top: 20px;
+  box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+  transition: 0.3s;
 }
 
 .hero button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
-  background: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 15px 25px rgba(255, 204, 0, 0.4);
 }
 
-/* Content Sections */
-.info-section {
-  padding: 60px 10% ;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.info-section h2 {
-  color: #ffcc00;
-  margin-bottom: 20px;
-}
-
-/* Cards & Attendance Grid */
+/* Improved Cards */
 .cards {
   display: flex;
   justify-content: center;
-  gap: 25px;
-  padding: 50px 20px;
+  gap: 30px;
+  padding: 60px 5%;
   flex-wrap: wrap;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 20px;
-  width: 300px;
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 35px;
+  border-radius: 24px;
+  width: 320px;
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-12px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffcc00;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .card h3 {
-  margin-top: 0;
   color: #ffcc00;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
 }
 
-/* Attendance Form Styling */
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-input[type="number"] {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background: rgba(255,255,255,0.9);
-  color: #333;
-}
-
-#attendanceBtn {
+/* Inputs & Forms */
+input, select, textarea {
   width: 100%;
-  padding: 10px;
-  background: #0d47a1;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.2);
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  outline: none;
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.3);
-  font-size: 0.9rem;
-  margin-top: 50px;
+input:focus {
+  border-color: #ffcc00;
 }
+
+/* PDF Template Styling (Hidden on Web) */
+#pdf-template {
+    background: white;
+    color: black;
+    border: 20px solid #eee;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header { flex-direction: column; gap: 10px; text-align: center; }
+  .nav-links { flex-direction: column; width: 100%; }
+  .dropdown-content { position: static; width: 100%; }
+}
+    
