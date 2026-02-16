@@ -66,18 +66,27 @@ function chatOpen() {
     reply = "Mid Day Meal is provided daily as per government norms.";
 
   alert(reply);
-  function calculateAttendance() {
-  const total = Number(document.getElementById("totalStudents").value);
-  const present = Number(document.getElementById("presentStudents").value);
-  const result = document.getElementById("attendanceResult");
+  
+  document.addEventListener("DOMContentLoaded", function () {
 
-  if (!total || !present || present > total) {
-    result.innerHTML = "Please enter valid numbers";
-    return;
+  const btn = document.getElementById("attendanceBtn");
+
+  if (btn) {
+    btn.addEventListener("click", function () {
+
+      const total = parseInt(document.getElementById("totalStudents").value);
+      const present = parseInt(document.getElementById("presentStudents").value);
+      const result = document.getElementById("attendanceResult");
+
+      if (isNaN(total) || isNaN(present) || present > total || total <= 0) {
+        result.innerHTML = "Please enter valid numbers";
+        return;
+      }
+
+      const percentage = ((present / total) * 100).toFixed(2);
+
+      result.innerHTML = "Today's Attendance: " + percentage + "%";
+    });
   }
 
-  const percentage = ((present / total) * 100).toFixed(2);
-
-  result.innerHTML = "Today's Attendance: " + percentage + "%";
-  }
-}
+});
