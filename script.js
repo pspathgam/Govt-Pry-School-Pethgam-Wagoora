@@ -109,3 +109,37 @@ function chatOpen() {
 
     alert(reply);
 }
+
+function generatePDF() {
+    const nameInput = document.getElementById('studentName').value;
+    
+    if (!nameInput) { 
+        alert("Please enter a student name first!"); 
+        return; 
+    }
+
+    // 1. Inject Data into Template
+    document.getElementById('pdf-n').innerText = nameInput.toUpperCase();
+    document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('en-IN');
+
+    // 2. Select the Element
+    const element = document.getElementById('pdf-template');
+
+    // 3. PDF Configuration
+    const opt = {
+        margin:       0.5,
+        filename:     `Bonafide_${nameInput}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, logging: true, letterRendering: true },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // 4. Run Generation
+    // We don't need to change display:block because we used the "absolute left" trick
+    html2pdf().set(opt).from(element).save().then(() => {
+        console.log("PDF successfully generated!");
+    }).catch(err => {
+        console.error("PDF Error:", err);
+    });
+}
+
