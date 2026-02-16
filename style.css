@@ -1,15 +1,9 @@
 /* Core Reset & Smooth Scrolling */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #ffffff;
@@ -31,207 +25,74 @@ header {
   z-index: 1100;
 }
 
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo-section img {
-  height: 60px;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
-}
-
+.logo-section { display: flex; align-items: center; gap: 15px; }
+.logo-section img { height: 60px; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)); }
 .logo-section h1 {
-  font-size: 1.3rem;
-  margin: 0;
+  font-size: 1.3rem; margin: 0;
   background: linear-gradient(to right, #fff, #ffcc00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* Modern Dropdown Navigation */
-nav {
-  background: #112d4e;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-}
-
-.nav-links {
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links > li {
-  position: relative;
-}
-
+nav { background: #112d4e; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+.nav-links { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
+.nav-links > li { position: relative; }
 .nav-links a {
-  display: block;
-  color: #cbdcf7;
-  padding: 15px 20px;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
+  display: block; color: #cbdcf7; padding: 15px 20px;
+  text-decoration: none; font-weight: 500; font-size: 14px;
   transition: all 0.3s ease;
 }
+.nav-links a:hover, .dropbtn:hover { color: #ffcc00; background: rgba(255, 255, 255, 0.05); }
 
-.nav-links a:hover, .dropbtn:hover {
-  color: #ffcc00;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Dropdown Content - FIXED ISSUE */
 .dropdown-content {
-  display: none; /* Keep hidden by default */
-  position: absolute;
-  background: #1a3c5a;
-  min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-  border-radius: 0 0 10px 10px;
-  overflow: hidden;
+  display: none; position: absolute; background: #1a3c5a;
+  min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  border-radius: 0 0 10px 10px; overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.dropdown-content a {
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  text-align: left;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block; /* Show only on hover */
-  animation: fadeIn 0.3s ease forwards;
-}
+.dropdown-content a { padding: 12px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: left; }
+.dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease forwards; }
 
 /* Hero Section */
 .hero {
-  text-align: center;
-  padding: 120px 20px;
-  background: url('https://www.transparenttextures.com/patterns/cubes.png'), 
-              radial-gradient(circle, rgba(68, 138, 255, 0.1) 0%, transparent 80%);
+  text-align: center; padding: 120px 20px;
+  background: radial-gradient(circle, rgba(68, 138, 255, 0.1) 0%, transparent 80%);
 }
-
-.hero h2 {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-}
+.hero h2 { font-size: 3rem; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.3); }
 
 .hero button {
-  padding: 15px 40px;
-  background: #ffcc00;
-  color: #0f2027;
-  border: none;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 50px;
-  box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+  padding: 15px 40px; background: #ffcc00; color: #0f2027;
+  border: none; font-weight: 700; cursor: pointer;
+  border-radius: 50px; box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
   transition: 0.3s;
 }
-
-.hero button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 25px rgba(255, 204, 0, 0.4);
-}
+.hero button:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255, 204, 0, 0.4); }
 
 /* Improved Cards */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 60px 5%;
-  flex-wrap: wrap;
-}
-
+.cards { display: flex; justify-content: center; gap: 30px; padding: 60px 5%; flex-wrap: wrap; }
 .card {
-  background: rgba(255, 255, 255, 0.07);
-  padding: 35px;
-  border-radius: 24px;
-  width: 320px;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.07); padding: 35px;
+  border-radius: 24px; width: 320px; backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+.card:hover { transform: translateY(-12px); background: rgba(255, 255, 255, 0.12); border-color: #ffcc00; }
 
-.card:hover {
-  transform: translateY(-12px);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #ffcc00;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.card h3 {
-  color: #ffcc00;
-  margin-bottom: 20px;
-  font-size: 1.4rem;
-}
-
-/* Inputs & Forms */
+/* Form Elements */
 input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(0,0,0,0.2);
-  color: white;
-  outline: none;
+  width: 100%; padding: 12px; margin-bottom: 15px;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3); color: white; outline: none;
 }
-
-input:focus {
-  border-color: #ffcc00;
-}
-
-<div style="position: absolute; left: -9999px;">
-    <div id="pdf-template" style="width: 800px; padding: 50px; color: black; background: white; font-family: 'Times New Roman', serif; border: 15px double #0d47a1; line-height: 1.8;">
-        <center>
-            <h1 style="margin: 0; color: #0d47a1;">GOVERNMENT PRIMARY SCHOOL</h1>
-            <h2 style="margin: 0;">PETHGAM WAGOORA</h2>
-            <p style="margin: 5px; font-weight: bold;">District: Baramulla | UDISE Code: 0123456789</p>
-            <hr style="border: 1px solid #0d47a1; margin: 20px 0;">
-            <h3 style="text-decoration: underline; font-size: 1.5rem;">BONAFIDE CERTIFICATE</h3>
-        </center>
-        
-        <div style="margin-top: 40px; font-size: 1.2rem; text-align: justify;">
-            <p>This is to certify that Master/Miss <strong id="pdf-n" style="font-size: 1.4rem; border-bottom: 1px dashed #000;"></strong> 
-            is a bonafide student of this institution. He/She is currently enrolled in 
-            <strong>Class: <span id="pdf-class-val">_________</span></strong> 
-            under Admission/Roll No: <strong><span id="pdf-roll-val">_________</span></strong>.</p>
-            
-            <p>According to the school records, his/her Date of Birth is _________________ and his/her conduct has been <strong>Satisfactory</strong> during his/her stay in this school.</p>
-        </div>
-
-        <div style="margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-                <p>Date: <span id="pdf-date"></span><br>
-                Place: Pethgam Wagoora</p>
-            </div>
-            <div style="text-align: center;">
-                <br><br>
-                <p><strong>__________________________</strong><br>
-                Signature of Headmaster<br>
-                (With Official Seal)</p>
-            </div>
-        </div>
-    </div>
-</div>
+input:focus { border-color: #ffcc00; background: rgba(0,0,0,0.5); }
 
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Responsive */
+/* Mobile View */
 @media (max-width: 768px) {
   header { flex-direction: column; gap: 10px; text-align: center; }
   .nav-links { flex-direction: column; width: 100%; }
-  .dropdown-content { position: static; width: 100%; }
+  .dropdown-content { position: static; width: 100%; box-shadow: none; display: block; background: rgba(0,0,0,0.2); }
 }
-    
