@@ -1,155 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Government Primary School Pethgam Wagoora</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Primary School Pethgam Wagoora</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <div class="logo-section">
-    <img src="file_0000000044d471fab24858b72be56d0a.png" alt="School Logo">
-    <h1>Government Primary School Pethgam Wagoora</h1>
-  </div>
-  <div id="liveDateTime"></div>
+    <div class="logo-section">
+        <img src="file_0000000044d471fab24858b72be56d0a.png" alt="GPS Pethgam Wagoora School Logo">
+        <h1>Government Primary School Pethgam Wagoora</h1>
+    </div>
+    <div id="liveDateTime" aria-live="polite"></div>
 </header>
 
-<nav>
-  <a href="#home">Home</a>
-  <a href="#about">About</a>
-  <a href="#principal">Principal</a>
-  <a href="#staff">Staff</a>
-  <a href="#students">Students</a>
-  <a href="#attendanceSection">Attendance</a>
-  <a href="#calendar">Academic Calendar</a>
-  <a href="#routine">Class Routine</a>
-  <a href="#results">Results</a>
-  <a href="#downloads">Downloads</a>
-  <a href="#middaymeal">Mid-Day Meal</a>
-  <a href="#scholarships">Scholarships</a>
-  <a href="#achievements">Achievements</a>
-  <a href="#infrastructure">Infrastructure</a>
-  <a href="#committee">School Committee</a>
-  <a href="#gallery">Gallery</a>
-  <a href="#contact">Contact</a>
+<nav aria-label="Main Navigation">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#principal">Principal</a>
+    <a href="#staff">Staff</a>
+    <a href="#students">Students</a>
+    <a href="#attendanceSection">Attendance</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#routine">Routine</a>
+    <a href="#results">Results</a>
+    <a href="#downloads">Downloads</a>
+    <a href="#middaymeal">Mid-Day Meal</a>
+    <a href="#scholarships">Scholarships</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#infrastructure">Infrastructure</a>
+    <a href="#committee">Committee</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
 </nav>
 
-<section class="hero" id="home">
-  <h2>Welcome to Our Smart AI-Based School Portal</h2>
-  <p>Empowering Young Minds Through Digital Innovation</p>
-  <button onclick="chatOpen()">Ask AI Assistant</button>
-</section>
+<main>
+    <section class="hero" id="home">
+        <h2>Welcome to Our Smart AI-Based School Portal</h2>
+        <p>Empowering Young Minds Through Digital Innovation</p>
+        <button type="button" onclick="chatOpen()">Ask AI Assistant</button>
+    </section>
 
-<section id="about" class="info-section">
-  <h2>About Us</h2>
-  <p>Government Primary School Pethgam Wagoora provides quality education with digital innovation and modern teaching methods.</p>
-</section>
+    <section id="about" class="info-section">
+        <h2>About Us</h2>
+        <p>Government Primary School Pethgam Wagoora provides quality education with digital innovation and modern teaching methods.</p>
+    </section>
 
-  <section id="principal" class="info-section">
-  <h2>Principal's Message</h2>
-  <p>Welcome to Government Primary School Pethgam Wagoora. Our mission is to provide quality education and holistic development.</p>
-</section>
+    <section id="principal" class="info-section">
+        <h2>Principal's Message</h2>
+        <p>Welcome to Government Primary School Pethgam Wagoora. Our mission is to provide quality education and holistic development.</p>
+    </section>
 
-<section id="calendar" class="info-section">
-  <h2>Academic Calendar</h2>
-  <p>Annual academic schedule, holidays and examination dates will be displayed here.</p>
-</section>
+    <div class="grid-container">
+        <section id="calendar" class="info-section">
+            <h2>Academic Calendar</h2>
+            <p>Annual academic schedule, holidays and examination dates will be displayed here.</p>
+        </section>
 
-<section id="routine" class="info-section">
-  <h2>Class Routine</h2>
-  <p>Daily timetable and subject schedule for all classes.</p>
-</section>
+        <section id="routine" class="info-section">
+            <h2>Class Routine</h2>
+            <p>Daily timetable and subject schedule for all classes.</p>
+        </section>
+    </div>
 
-<section id="results" class="info-section">
-  <h2>Results</h2>
-  <p>Student examination results and performance reports.</p>
-</section>
+    <section id="attendanceSection" class="cards">
+        <div class="card">
+            <h3>📢 Latest Notice</h3>
+            <p>Admissions Open for 2026 Session</p>
+        </div>
 
-<section id="downloads" class="info-section">
-  <h2>Downloads</h2>
-  <p>Admission forms, syllabus and important documents.</p>
-</section>
+        <div class="card">
+            <h3>📊 Attendance System</h3>
+            <div class="input-group">
+                <label for="totalStudents">Total Students:</label>
+                <input type="number" id="totalStudents" placeholder="e.g. 50">
+                
+                <label for="presentStudents">Present Today:</label>
+                <input type="number" id="presentStudents" placeholder="e.g. 45">
+            </div>
+            <button id="attendanceBtn">Calculate %</button>
+            <p id="attendanceResult">Result will appear here</p>
+        </div>
 
-<section id="middaymeal" class="info-section">
-  <h2>Mid-Day Meal</h2>
-  <p>Nutritious meals provided daily under government scheme.</p>
-</section>
+        <div class="card">
+            <h3>🌤 Weather</h3>
+            <p id="weather">Fetching data...</p>
+        </div>
+    </section>
 
-<section id="scholarships" class="info-section">
-  <h2>Scholarships</h2>
-  <p>Information about government scholarships and benefits.</p>
-</section>
+    <section id="results" class="info-section"><h2>Results</h2><p>Student examination results and performance reports.</p></section>
+    <section id="downloads" class="info-section"><h2>Downloads</h2><p>Admission forms, syllabus and important documents.</p></section>
+    <section id="middaymeal" class="info-section"><h2>Mid-Day Meal</h2><p>Nutritious meals provided daily under government scheme.</p></section>
+    <section id="staff" class="info-section"><h2>Our Staff</h2><p>Our qualified and dedicated teachers are committed to excellence.</p></section>
 
-<section id="achievements" class="info-section">
-  <h2>Achievements</h2>
-  <p>School achievements and student accomplishments.</p>
-</section>
-
-<section id="infrastructure" class="info-section">
-  <h2>Infrastructure</h2>
-  <p>Details about classrooms, playground, and facilities.</p>
-</section>
-
-<section id="committee" class="info-section">
-  <h2>School Committee</h2>
-  <p>Details of School Management Committee members.</p>
-</section>
-
-<section id="staff" class="info-section">
-  <h2>Our Staff</h2>
-  <p>Our qualified and dedicated teachers are committed to excellence in education.</p>
-</section>
-
-<section id="students" class="info-section">
-  <h2>Students</h2>
-  <p>We nurture young minds to build a brighter and responsible future.</p>
-</section>
-
-<section class="cards">
-
-  <div class="card">
-    <h3>📢 Latest Notice</h3>
-    <p>Admissions Open for 2026 Session</p>
-  </div>
-
-  <div class="card" id="attendanceSection">
-    <h3>📊 Attendance System</h3>
-
-    <input type="number" id="totalStudents" placeholder="Total Students">
-    <input type="number" id="presentStudents" placeholder="Present Today">
-    <button id="attendanceBtn">Calculate</button>
-
-    <p id="attendanceResult">Attendance will appear here</p>
-  </div>
-
-  <div class="card">
-    <h3>🌤 Weather</h3>
-    <p id="weather">Loading...</p>
-  </div>
-
-</section>
-
-<section id="gallery" class="info-section">
-  <h2>Gallery</h2>
-  <p>School activities and events will be displayed here.</p>
-</section>
-
-<section id="contact" class="info-section">
-  <h2>Contact Us</h2>
-  <p>Visit us during school hours for admissions and inquiries.</p>
-</section>
+    <section id="contact" class="info-section">
+        <h2>Contact Us</h2>
+        <p>Visit us during school hours for admissions and inquiries.</p>
+    </section>
+</main>
 
 <footer>
-  <p>© 2026 Government Primary School Pethgam Wagoora | Designed with AI</p>
+    <p>© 2026 Government Primary School Pethgam Wagoora | Designed with AI</p>
 </footer>
+
+<script>
+    // Live Date/Time function
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('liveDateTime').innerText = now.toLocaleString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Attendance Logic
+    document.getElementById('attendanceBtn').addEventListener('click', function() {
+        const total = document.getElementById('totalStudents').value;
+        const present = document.getElementById('presentStudents').value;
+        if (total > 0 && present >= 0) {
+            const percentage = ((present / total) * 100).toFixed(2);
+            document.getElementById('attendanceResult').innerText = `Attendance: ${percentage}%`;
+        } else {
+            document.getElementById('attendanceResult').innerText = "Please enter valid numbers.";
+        }
+    });
+
+    function chatOpen() {
+        alert("AI Assistant feature coming soon!");
+    }
+</script>
 
 <script src="script.js"></script>
 
 </body>
 </html>
+  
