@@ -188,12 +188,39 @@ input:focus {
   border-color: #ffcc00;
 }
 
-/* PDF Template Styling (Hidden on Web) */
-#pdf-template {
-    background: white;
-    color: black;
-    border: 20px solid #eee;
-}
+<div style="position: absolute; left: -9999px;">
+    <div id="pdf-template" style="width: 800px; padding: 50px; color: black; background: white; font-family: 'Times New Roman', serif; border: 15px double #0d47a1; line-height: 1.8;">
+        <center>
+            <h1 style="margin: 0; color: #0d47a1;">GOVERNMENT PRIMARY SCHOOL</h1>
+            <h2 style="margin: 0;">PETHGAM WAGOORA</h2>
+            <p style="margin: 5px; font-weight: bold;">District: Baramulla | UDISE Code: 0123456789</p>
+            <hr style="border: 1px solid #0d47a1; margin: 20px 0;">
+            <h3 style="text-decoration: underline; font-size: 1.5rem;">BONAFIDE CERTIFICATE</h3>
+        </center>
+        
+        <div style="margin-top: 40px; font-size: 1.2rem; text-align: justify;">
+            <p>This is to certify that Master/Miss <strong id="pdf-n" style="font-size: 1.4rem; border-bottom: 1px dashed #000;"></strong> 
+            is a bonafide student of this institution. He/She is currently enrolled in 
+            <strong>Class: <span id="pdf-class-val">_________</span></strong> 
+            under Admission/Roll No: <strong><span id="pdf-roll-val">_________</span></strong>.</p>
+            
+            <p>According to the school records, his/her Date of Birth is _________________ and his/her conduct has been <strong>Satisfactory</strong> during his/her stay in this school.</p>
+        </div>
+
+        <div style="margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <p>Date: <span id="pdf-date"></span><br>
+                Place: Pethgam Wagoora</p>
+            </div>
+            <div style="text-align: center;">
+                <br><br>
+                <p><strong>__________________________</strong><br>
+                Signature of Headmaster<br>
+                (With Official Seal)</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 /* Animations */
 @keyframes fadeIn {
