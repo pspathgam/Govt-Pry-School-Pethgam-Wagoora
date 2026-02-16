@@ -3,105 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Primary School Pethgam Wagoora</title>
+    <title>Management Portal | GPS Pethgam Wagoora</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
 
 <header>
     <div class="logo-section">
-        <img src="file_0000000044d471fab24858b72be56d0a.png" alt="GPS Pethgam Wagoora School Logo">
-        <h1>Government Primary School Pethgam Wagoora</h1>
+        <img src="file_0000000044d471fab24858b72be56d0a.png" alt="School Logo">
+        <div>
+            <h1>Government Primary School Pethgam Wagoora</h1>
+            <p style="font-size: 0.8rem; margin: 0; opacity: 0.8;">Smart AI-Based Management System</p>
+        </div>
     </div>
     <div id="liveDateTime" aria-live="polite"></div>
 </header>
 
 <nav aria-label="Main Navigation">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#principal">Principal</a>
-    <a href="#staff">Staff</a>
-    <a href="#students">Students</a>
-    <a href="#attendanceSection">Attendance</a>
-    <a href="#calendar">Calendar</a>
-    <a href="#routine">Routine</a>
-    <a href="#results">Results</a>
-    <a href="#downloads">Downloads</a>
-    <a href="#middaymeal">Mid-Day Meal</a>
-    <a href="#scholarships">Scholarships</a>
-    <a href="#achievements">Achievements</a>
-    <a href="#infrastructure">Infrastructure</a>
-    <a href="#committee">Committee</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Administration ▾</a>
+            <div class="dropdown-content">
+                <a href="#about">About School</a>
+                <a href="#staff">Staff Statement</a>
+                <a href="#committee">School Committee</a>
+                <a href="#infrastructure">Infrastructure</a>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Academics ▾</a>
+            <div class="dropdown-content">
+                <a href="#routine">Class Routine</a>
+                <a href="#calendar">Academic Calendar</a>
+                <a href="#downloads">Syllabus & Forms</a>
+                <a href="#results">Results</a>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Management ▾</a>
+            <div class="dropdown-content">
+                <a href="#attendanceSection">Daily Attendance</a>
+                <a href="#generator">Certificate Generator</a>
+                <a href="#mdm-portal">MDM Daily Record</a>
+                <a href="#scholarships">Scholarships</a>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Diaries ▾</a>
+            <div class="dropdown-content">
+                <a href="#diaries">Teacher's Diary</a>
+                <a href="#diaries">Student's Diary</a>
+            </div>
+        </li>
+
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
 </nav>
 
 <main>
     <section class="hero" id="home">
-        <h2>Welcome to Our Smart AI-Based School Portal</h2>
-        <p>Empowering Young Minds Through Digital Innovation</p>
-        <button type="button" onclick="chatOpen()">Ask AI Assistant</button>
+        <h2>Empowering Education Through Digital Innovation</h2>
+        <p>Record Attendance, Generate Certificates, and Manage MDM Statements Seamlessly.</p>
+        <button type="button" class="btn-ai" onclick="chatOpen()">Ask AI Assistant</button>
     </section>
 
-    <section id="about" class="info-section">
-        <h2>About Us</h2>
-        <p>Government Primary School Pethgam Wagoora provides quality education with digital innovation and modern teaching methods.</p>
-    </section>
-
-    <section id="principal" class="info-section">
-        <h2>Principal's Message</h2>
-        <p>Welcome to Government Primary School Pethgam Wagoora. Our mission is to provide quality education and holistic development.</p>
-    </section>
-
-    <div class="grid-container">
-        <section id="calendar" class="info-section">
-            <h2>Academic Calendar</h2>
-            <p>Annual academic schedule, holidays and examination dates will be displayed here.</p>
-        </section>
-
-        <section id="routine" class="info-section">
-            <h2>Class Routine</h2>
-            <p>Daily timetable and subject schedule for all classes.</p>
-        </section>
-    </div>
-
-    <section id="attendanceSection" class="cards">
-        <div class="card">
-            <h3>📢 Latest Notice</h3>
-            <p>Admissions Open for 2026 Session</p>
-        </div>
-
-        <div class="card">
+    <section class="cards" id="quick-actions">
+        <div class="card" id="attendanceSection">
             <h3>📊 Attendance System</h3>
             <div class="input-group">
-                <label for="totalStudents">Total Students:</label>
-                <input type="number" id="totalStudents" placeholder="e.g. 50">
-                
-                <label for="presentStudents">Present Today:</label>
-                <input type="number" id="presentStudents" placeholder="e.g. 45">
+                <input type="number" id="totalStudents" placeholder="Total Students">
+                <input type="number" id="presentStudents" placeholder="Present Today">
             </div>
-            <button id="attendanceBtn">Calculate %</button>
-            <p id="attendanceResult">Result will appear here</p>
+            <button id="attendanceBtn">Update Attendance</button>
+            <p id="attendanceResult"></p>
+        </div>
+
+        <div class="card" id="generator">
+            <h3>📜 Document Generator</h3>
+            <p>Generate Bonafide & ID Cards</p>
+            <input type="text" id="studentName" placeholder="Student Name">
+            <select id="docType">
+                <option value="bonafide">Bonafide Certificate</option>
+                <option value="idcard">Student ID Card</option>
+            </select>
+            <button onclick="generatePDF()">Download PDF</button>
         </div>
 
         <div class="card">
-            <h3>🌤 Weather</h3>
-            <p id="weather">Fetching data...</p>
+            <h3>🌤 Weather & Notices</h3>
+            <p id="weather">Loading...</p>
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1)">
+            <p style="font-size: 0.9rem;"><strong>Notice:</strong> Admissions 2026 Open!</p>
         </div>
     </section>
 
-    <section id="results" class="info-section"><h2>Results</h2><p>Student examination results and performance reports.</p></section>
-    <section id="downloads" class="info-section"><h2>Downloads</h2><p>Admission forms, syllabus and important documents.</p></section>
-    <section id="middaymeal" class="info-section"><h2>Mid-Day Meal</h2><p>Nutritious meals provided daily under government scheme.</p></section>
-    <section id="staff" class="info-section"><h2>Our Staff</h2><p>Our qualified and dedicated teachers are committed to excellence.</p></section>
-
-    <section id="contact" class="info-section">
-        <h2>Contact Us</h2>
-        <p>Visit us during school hours for admissions and inquiries.</p>
+    <section id="diaries" class="info-section">
+        <h2>Daily Diaries</h2>
+        <div class="diary-grid" style="display: flex; gap: 20px; justify-content: center;">
+            <div class="card" style="width: 45%;">
+                <h4>Teacher's Diary</h4>
+                <textarea placeholder="Enter today's lesson plan..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+                <button style="margin-top: 10px;">Save Entry</button>
+            </div>
+            <div class="card" style="width: 45%;">
+                <h4>Student's Diary</h4>
+                <p>Latest Homework: Math Exercise 4.2</p>
+            </div>
+        </div>
     </section>
+
+    <section id="middaymeal" class="info-section">
+        <h2>Mid-Day Meal (MDM)</h2>
+        <div class="card" style="max-width: 600px; margin: auto;">
+            <p>Daily Nutrition Tracking & Monthly Statement Generation</p>
+            <button>Generate Monthly MDM Report (PDF)</button>
+        </div>
+    </section>
+
+    <div id="pdf-template" style="display: none; padding: 40px; color: black; background: white; font-family: serif; border: 10px double #333;">
+        <center>
+            <h2>GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h2>
+            <h3>BONAFIDE CERTIFICATE</h3>
+        </center>
+        <br><br>
+        <p>This is to certify that Master/Miss <strong id="pdf-n"></strong> is a bonafide student of this institution studying in Class _______ under Roll No: ______.</p>
+        <br>
+        <p>Date: <span id="pdf-date"></span></p>
+        <br><br><br>
+        <p style="text-align: right;">Headmaster Signature</p>
+    </div>
+
 </main>
 
 <footer>
@@ -109,33 +150,40 @@
 </footer>
 
 <script>
-    // Live Date/Time function
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('liveDateTime').innerText = now.toLocaleString();
+    // PDF Generator Logic
+    function generatePDF() {
+        const name = document.getElementById('studentName').value;
+        if(!name) { alert("Please enter a student name"); return; }
+        
+        document.getElementById('pdf-n').innerText = name.toUpperCase();
+        document.getElementById('pdf-date').innerText = new Date().toLocaleDateString();
+        
+        const element = document.getElementById('pdf-template');
+        element.style.display = 'block'; // Temporarily show to capture
+        
+        html2pdf().from(element).save(name + '_Certificate.pdf').then(() => {
+            element.style.display = 'none'; // Hide again
+        });
     }
-    setInterval(updateClock, 1000);
-    updateClock();
 
     // Attendance Logic
     document.getElementById('attendanceBtn').addEventListener('click', function() {
         const total = document.getElementById('totalStudents').value;
         const present = document.getElementById('presentStudents').value;
+        const res = document.getElementById('attendanceResult');
         if (total > 0 && present >= 0) {
-            const percentage = ((present / total) * 100).toFixed(2);
-            document.getElementById('attendanceResult').innerText = `Attendance: ${percentage}%`;
-        } else {
-            document.getElementById('attendanceResult').innerText = "Please enter valid numbers.";
+            const percentage = ((present / total) * 100).toFixed(1);
+            res.innerHTML = `Success: <strong>${percentage}%</strong> recorded.`;
+            res.style.color = "#44ff44";
         }
     });
 
-    function chatOpen() {
-        alert("AI Assistant feature coming soon!");
+    function updateClock() {
+        document.getElementById('liveDateTime').innerText = new Date().toLocaleString();
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 </script>
-
-<script src="script.js"></script>
 
 </body>
 </html>
-  
