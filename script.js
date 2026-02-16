@@ -1,4 +1,6 @@
+// ================================
 // Live Date & Time
+// ================================
 function updateDateTime() {
   const now = new Date();
   const dt = document.getElementById("liveDateTime");
@@ -8,10 +10,11 @@ setInterval(updateDateTime, 1000);
 updateDateTime();
 
 
-// Simple Working Weather (No API issue version)
+// ================================
+// Weather
+// ================================
 async function loadWeather() {
   const weatherEl = document.getElementById("weather");
-
   if (!weatherEl) return;
 
   weatherEl.innerHTML = "Fetching weather...";
@@ -35,15 +38,15 @@ async function loadWeather() {
     console.log("Weather error:", error);
   }
 }
-
 loadWeather();
 
 
-// AI Assistant Button
+// ================================
+// AI Assistant
+// ================================
 function chatOpen() {
 
   let question = prompt("Ask your question about the school:");
-
   if (!question) return;
 
   question = question.toLowerCase();
@@ -66,8 +69,13 @@ function chatOpen() {
     reply = "Mid Day Meal is provided daily as per government norms.";
 
   alert(reply);
-  
-  document.addEventListener("DOMContentLoaded", function () {
+}
+
+
+// ================================
+// Attendance System
+// ================================
+document.addEventListener("DOMContentLoaded", function () {
 
   const btn = document.getElementById("attendanceBtn");
 
@@ -84,7 +92,6 @@ function chatOpen() {
       }
 
       const percentage = ((present / total) * 100).toFixed(2);
-
       result.innerHTML = "Today's Attendance: " + percentage + "%";
     });
   }
