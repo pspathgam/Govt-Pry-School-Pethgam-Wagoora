@@ -50,7 +50,6 @@ function chatOpen() {
   if (!question) return;
 
   question = question.toLowerCase();
-
   let reply = "Please contact school office for more details.";
 
   if (question.includes("admission"))
