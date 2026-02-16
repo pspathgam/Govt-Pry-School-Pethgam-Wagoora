@@ -1,98 +1,111 @@
-// ================================
-// Live Date & Time
-// ================================
-function updateDateTime() {
-  const now = new Date();
-  const dt = document.getElementById("liveDateTime");
-  if (dt) dt.innerHTML = now.toLocaleString();
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
-
-
-// ================================
-// Weather
-// ================================
-async function loadWeather() {
-  const weatherEl = document.getElementById("weather");
-  if (!weatherEl) return;
-
-  weatherEl.innerHTML = "Fetching weather...";
-
-  try {
-    const response = await fetch(
-      "https://api.open-meteo.com/v1/forecast?latitude=34.20&longitude=74.34&current_weather=true"
-    );
-
-    const data = await response.json();
-
-    if (data && data.current_weather) {
-      const temp = data.current_weather.temperature;
-      weatherEl.innerHTML = "Wagoora: " + temp + "°C 🌤";
-    } else {
-      weatherEl.innerHTML = "Weather data not available";
+// Ensure the DOM is fully loaded before running scripts
+document.addEventListener("DOMContentLoaded", function () {
+    
+    // ================================
+    // 1. Live Date & Time
+    // ================================
+    function updateDateTime() {
+        const now = new Date();
+        const dt = document.getElementById("liveDateTime");
+        // Using toLocaleString for a cleaner, user-friendly format
+        if (dt) {
+            dt.innerHTML = now.toLocaleString('en-IN', { 
+                dateStyle: 'medium', 
+                timeStyle: 'short' 
+            });
+        }
     }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 
-  } catch (error) {
-    weatherEl.innerHTML = "Unable to load weather";
-    console.log("Weather error:", error);
-  }
-}
-loadWeather();
+    // ================================
+    // 2. Enhanced Weather System
+    // ================================
+    async function loadWeather() {
+        const weatherEl = document.getElementById("weather");
+        if (!weatherEl) return;
 
+        try {
+            // Fetching for Wagoora coordinates
+            const response = await fetch(
+                "https://api.open-meteo.com/v1/forecast?latitude=34.20&longitude=74.34&current_weather=true"
+            );
+            const data = await response.json();
+
+            if (data && data.current_weather) {
+                const temp = Math.round(data.current_weather.temperature);
+                const code = data.current_weather.weathercode;
+                
+                // Simple weather code interpreter
+                let icon = "🌤"; 
+                if (code >= 51 && code <= 67) icon = "🌧";
+                if (code >= 71 && code <= 77) icon = "❄️";
+                if (code >= 95) icon = "⛈";
+
+                weatherEl.innerHTML = `Wagoora: ${temp}°C ${icon}`;
+            } else {
+                weatherEl.innerHTML = "Weather currently unavailable";
+            }
+        } catch (error) {
+            weatherEl.innerHTML = "Unable to load weather";
+            console.error("Weather error:", error);
+        }
+    }
+    loadWeather();
+
+    // ================================
+    // 3. Attendance System Logic
+    // ================================
+    const btn = document.getElementById("attendanceBtn");
+    if (btn) {
+        btn.addEventListener("click", function () {
+            const totalInput = document.getElementById("totalStudents").value;
+            const presentInput = document.getElementById("presentStudents").value;
+            const result = document.getElementById("attendanceResult");
+
+            const total = parseInt(totalInput);
+            const present = parseInt(presentInput);
+
+            // Validation: Check for empty, negative, or logical errors
+            if (isNaN(total) || isNaN(present) || total <= 0 || present < 0) {
+                result.innerHTML = "❌ Please enter valid positive numbers";
+                result.style.color = "#ff4444";
+            } else if (present > total) {
+                result.innerHTML = "❌ Present count cannot exceed total";
+                result.style.color = "#ff4444";
+            } else {
+                const percentage = ((present / total) * 100).toFixed(1);
+                result.innerHTML = `✅ Today's Attendance: <strong>${percentage}%</strong>`;
+                result.style.color = "#44ff44";
+            }
+        });
+    }
+});
 
 // ================================
-// AI Assistant
+// 4. AI Assistant (Global Function)
 // ================================
 function chatOpen() {
+    let userInput = prompt("How can I help you today? (e.g., admissions, timing, meal)");
+    if (!userInput) return;
 
-  let question = prompt("Ask your question about the school:");
-  if (!question) return;
+    const question = userInput.toLowerCase();
+    let reply = "";
 
-  question = question.toLowerCase();
-  let reply = "Please contact school office for more details.";
+    // Using a more scalable matching system
+    if (question.includes("admission")) {
+        reply = "📍 Admissions 2026: Open for all primary classes. Please visit the school office with a birth certificate and Aadhaar card.";
+    } else if (question.includes("timing") || question.includes("time")) {
+        reply = "🕒 School Hours: 10:00 AM to 4:00 PM (Monday to Saturday).";
+    } else if (question.includes("principal") || question.includes("headmaster") || question.includes("who")) {
+        reply = "👨‍🏫 Headmaster: You can meet the Head of Institution at Pethgam Wagoora during office hours.";
+    } else if (question.includes("meal") || question.includes("food") || question.includes("lunch")) {
+        reply = "🍲 Mid-Day Meal: We provide fresh, nutritious meals daily under the Govt. PM-POSHAN scheme.";
+    } else if (question.includes("scholarship")) {
+        reply = "🎓 Scholarships: Various Pre-Matric scholarships are available for eligible students. Check the 'Scholarships' section on our site.";
+    } else {
+        reply = "I'm still learning! 🧠 For specific queries like that, please visit the school or contact us directly.";
+    }
 
-  if (question.includes("admission"))
-    reply = "Admissions are open. Visit school office between 10 AM – 2 PM.";
-
-  else if (question.includes("timing"))
-    reply = "School timing is 10:00 AM to 4:00 PM.";
-
-  else if (question.includes("principal") || question.includes("headmaster"))
-    reply = "Headmaster: Government Primary School Pethgam Wagoora.";
-
-  else if (question.includes("contact"))
-    reply = "You can contact the school during working hours.";
-
-  else if (question.includes("mid day meal"))
-    reply = "Mid Day Meal is provided daily as per government norms.";
-
-  alert(reply);
+    alert(reply);
 }
-
-
-// ================================
-// Attendance System
-// ================================
-document.addEventListener("DOMContentLoaded", function () {
-
-  const btn = document.getElementById("attendanceBtn");
-
-  if (btn) {
-    btn.addEventListener("click", function () {
-
-      const total = parseInt(document.getElementById("totalStudents").value);
-      const present = parseInt(document.getElementById("presentStudents").value);
-      const result = document.getElementById("attendanceResult");
-
-      if (isNaN(total) || isNaN(present) || present > total || total <= 0) {
-        result.innerHTML = "Please enter valid numbers";
-        return;
-      }
-
-      const percentage = ((present / total) * 100).toFixed(2);
-      result.innerHTML = "Today's Attendance: " + percentage + "%";
-    });
-  }
-
-});
