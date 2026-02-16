@@ -41,5 +41,29 @@ loadWeather();
 
 // AI Assistant Button
 function chatOpen() {
-  alert("Admissions are open. School timing: 10:00 AM – 4:00 PM.");
+
+  let question = prompt("Ask your question about the school:");
+
+  if (!question) return;
+
+  question = question.toLowerCase();
+
+  let reply = "Please contact school office for more details.";
+
+  if (question.includes("admission"))
+    reply = "Admissions are open. Visit school office between 10 AM – 2 PM.";
+
+  else if (question.includes("timing"))
+    reply = "School timing is 10:00 AM to 4:00 PM.";
+
+  else if (question.includes("principal") || question.includes("headmaster"))
+    reply = "Headmaster: Government Primary School Pethgam Wagoora.";
+
+  else if (question.includes("contact"))
+    reply = "You can contact the school during working hours.";
+
+  else if (question.includes("mid day meal"))
+    reply = "Mid Day Meal is provided daily as per government norms.";
+
+  alert(reply);
 }
