@@ -9,6 +9,18 @@ function chatOpen() {
 }
 
 async function loadWeather() {
-  document.getElementById("weather").innerHTML = "Pleasant Weather in Wagoora 🌤";
+  try {
+    const response = await fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude=34.15&longitude=74.62&current_weather=true"
+    );
+    const data = await response.json();
+    const temp = data.current_weather.temperature;
+    document.getElementById("weather").innerHTML =
+      "Wagoora: " + temp + "°C 🌤";
+  } catch (error) {
+    document.getElementById("weather").innerHTML =
+      "Weather unavailable";
+  }
 }
+
 loadWeather();
