@@ -10,7 +10,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* PDF Styling - Ensures black text & visibility for the engine */
+        /* --- NAVIGATION HIERARCHY --- */
+        
+        /* 1. Hide the entire Nav by default */
+        #mainNav {
+            display: none; 
+            background: #1a3c5a;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* 2. Show Nav only when 'Menu' is toggled */
+        #mainNav.active {
+            display: block !important;
+        }
+
+        /* 3. Dropdowns remain closed until clicked */
+        .dropdown-content {
+            display: none;
+            background-color: #0d2137;
+            width: 100%;
+            position: relative; /* Changed to relative for nested list flow */
+            box-shadow: none;
+        }
+
+        .dropdown-content.active-submenu {
+            display: block !important;
+        }
+
+        /* Responsive Navigation Styling */
+        .nav-links {
+            display: flex;
+            flex-direction: column; /* Stacked layout for the nested menu */
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-links li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .dropbtn, .nav-links li a {
+            padding: 15px 20px;
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* --- PDF PRINT AREA --- */
         .pdf-print-area { 
             color: #000 !important; 
             background: #fff !important; 
@@ -22,37 +70,6 @@
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px; text-align: left; color: #000; }
         .pdf-table th { background-color: #f2f2f2; }
-        
-        /* DROPDOWN LOGIC - Prevents menus from staying open */
-        .dropdown-content {
-            display: none; /* Forced hidden by default */
-            position: absolute;
-            background-color: #1a3c5a;
-            min-width: 180px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        /* Show class for JS toggle */
-        .dropdown-content.active-menu {
-            display: block !important;
-        }
-
-        /* Desktop: Removing hover to ensure click-only behavior if desired, 
-           or keeping hover only for non-touch devices */
-        @media (min-width: 769px) {
-            .dropdown:hover .dropdown-content { display: block; }
-        }
-
-        /* Mobile Dropdown Fix */
-        @media (max-width: 768px) {
-            .dropdown-content { 
-                position: static !important; 
-                width: 100%; 
-                box-shadow: none;
-                background: #0d2137;
-            }
-        }
     </style>
 </head>
 
@@ -69,44 +86,43 @@
     <div id="liveDateTime" aria-live="polite"></div>
 </header>
 
-<div class="menu-toggle" onclick="toggleMobileMenu()">☰ Menu</div>
+<div class="menu-toggle" onclick="toggleMobileMenu()" style="cursor: pointer; padding: 15px; background: #0d47a1; color: white; text-align: center; font-weight: bold;">
+    ☰ CLICK FOR MENU
+</div>
 
-<nav id="mainNav" aria-label="Main Navigation">
+<nav id="mainNav">
     <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Administration ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Administration ▾</a>
             <div class="dropdown-content">
                 <a href="#about">About School</a>
                 <a href="#staff">Staff Statement</a>
                 <a href="#committee">School Committee</a>
-                <a href="#infrastructure">Infrastructure</a>
             </div>
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Academics ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Academics ▾</a>
             <div class="dropdown-content">
                 <a href="#routine">Class Routine</a>
                 <a href="#calendar">Academic Calendar</a>
-                <a href="#downloads">Syllabus & Forms</a>
                 <a href="#results">Results</a>
             </div>
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Management ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Management ▾</a>
             <div class="dropdown-content">
                 <a href="#attendanceSection">Daily Attendance</a>
                 <a href="#generator-section">Document Generator</a>
                 <a href="#middaymeal">MDM Daily Record</a>
-                <a href="#scholarships">Scholarships</a>
             </div>
         </li>
 
         <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown(this)">Diaries ▾</a>
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Diaries ▾</a>
             <div class="dropdown-content">
                 <a href="#diaries">Teacher's Diary</a>
                 <a href="#diaries">Student's Diary</a>
@@ -126,37 +142,25 @@
     </section>
 
     <section class="cards" id="quick-actions">
-        <div class="card" id="attendanceSection">
-            <h3>📊 Attendance System</h3>
-            <div class="input-group">
-                <input type="number" id="totalStudents" placeholder="Total Students">
-                <input type="number" id="presentStudents" placeholder="Present Today">
-            </div>
-            <button id="attendanceBtn" class="primary-btn">Update Record</button>
-            <p id="attendanceResult" style="margin-top:10px; font-weight:bold;"></p>
-        </div>
-
         <div class="card" id="generator-section">
             <h3>📜 Document Engine</h3>
             <select id="docType" onchange="updatePlaceholders()">
                 <option value="bonafide">Bonafide Certificate</option>
                 <option value="marksheet">Marks Sheet</option>
                 <option value="staff">Staff Statement</option>
-                <option value="roll">Roll Statement</option>
-                <option value="duty">Duty Certificate</option>
                 <option value="mdm">MDM Statement</option>
             </select>
             <input type="text" id="mainName" placeholder="Student/Staff Name">
             <input type="text" id="detail1" placeholder="Class / Designation">
             <input type="text" id="detail2" placeholder="Roll No / Details">
-            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold;">Download Official PDF</button>
+            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold; width: 100%; margin-top: 10px;">Download Official PDF</button>
         </div>
 
         <div class="card">
             <h3>🌤 Weather & Notices</h3>
             <p id="weather">Fetching weather...</p>
             <hr class="card-divider">
-            <p style="font-size: 0.85rem; text-align: left;">📢 <strong>Notice:</strong> Admissions 2026 Session starting soon.</p>
+            <p style="font-size: 0.85rem;">📢 Notice: Admissions 2026 Session starting soon.</p>
         </div>
     </section>
 
@@ -164,13 +168,13 @@
         <div id="master-template" class="pdf-print-area">
             <center>
                 <img src="file_0000000044d471fab24858b72be56d0a.png" style="height: 60px;">
-                <h1 class="school-title" style="margin:0; color:#0d47a1;">GOVERNMENT PRIMARY SCHOOL</h1>
-                <h2 class="school-loc" style="margin:0;">PETHGAM WAGOORA</h2>
-                <p class="school-meta">District: Baramulla | Zone: Wagoora | UDISE: 0102030405</p>
-                <hr class="pdf-hr" style="border: 1px solid #000;">
+                <h1 style="margin:0; color:#0d47a1;">GOVERNMENT PRIMARY SCHOOL</h1>
+                <h2 style="margin:0;">PETHGAM WAGOORA</h2>
+                <p>District: Baramulla | Zone: Wagoora | UDISE: 0102030405</p>
+                <hr style="border: 1px solid #000;">
             </center>
-            <div id="pdf-dynamic-content" class="pdf-body" style="min-height: 300px; color: #000;"></div>
-            <div class="pdf-footer" style="margin-top: 50px; display: flex; justify-content: space-between;">
+            <div id="pdf-dynamic-content" style="min-height: 300px; color: #000;"></div>
+            <div style="margin-top: 50px; display: flex; justify-content: space-between;">
                 <div><p>Date: <span id="pdf-date-field"></span><br>Place: Pethgam Wagoora</p></div>
                 <div style="text-align: center;"><p><strong>__________________________</strong><br>Headmaster / Authority</p></div>
             </div>
@@ -179,156 +183,70 @@
 </main>
 
 <footer>
-    <p>© 2026 Government Primary School Pethgam Wagoora | Developed for Digital India</p>
+    <p>© 2026 Government Primary School Pethgam Wagoora</p>
 </footer>
 
 <script>
-    /* 1. Mobile Menu Toggle */
+    /* 1. Main Menu Toggle (The "Menu" Button) */
     function toggleMobileMenu() {
         const nav = document.getElementById('mainNav');
-        nav.classList.toggle('active');
-    }
-
-    /* 2. REFINED Dropdown Logic: Ensures they stay closed unless clicked */
-    function toggleDropdown(el) {
-        const content = el.nextElementSibling;
-        
-        // Close other open dropdowns first for a clean UI
-        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-            if (dropdown !== content) {
-                dropdown.classList.remove('active-menu');
-            }
-        });
-
-        // Toggle the clicked menu
-        content.classList.toggle('active-menu');
-    }
-
-    // Close dropdowns if user clicks anywhere else on the page
-    window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                dropdown.classList.remove('active-menu');
-            });
+        if (nav.style.display === "block") {
+            nav.style.display = "none";
+            nav.classList.remove('active');
+        } else {
+            nav.style.display = "block";
+            nav.classList.add('active');
         }
     }
 
-    /* 3. Live Clock */
+    /* 2. Sub-Menu Toggle (Categories inside the Menu) */
+    function toggleSubMenu(el) {
+        const content = el.nextElementSibling;
+        
+        // Optional: Close other submenus when opening a new one
+        document.querySelectorAll('.dropdown-content').forEach(sub => {
+            if (sub !== content) sub.classList.remove('active-submenu');
+        });
+
+        content.classList.toggle('active-submenu');
+    }
+
+    /* 3. Logic for PDF & Clock */
     function updateClock() {
         const dt = document.getElementById('liveDateTime');
-        if(dt) dt.innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+        if(dt) dt.innerText = new Date().toLocaleString('en-IN');
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    /* 4. Weather API */
     async function loadWeather() {
         try {
             const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=34.20&longitude=74.34&current_weather=true");
             const data = await res.json();
-            if(data.current_weather) {
-                document.getElementById('weather').innerText = `Wagoora: ${Math.round(data.current_weather.temperature)}°C 🌤`;
-            }
+            document.getElementById('weather').innerText = `Wagoora: ${Math.round(data.current_weather.temperature)}°C 🌤`;
         } catch(e) { document.getElementById('weather').innerText = "Weather: 12°C 🌤"; }
     }
     window.onload = loadWeather;
 
-    /* 5. Attendance Logic */
-    document.getElementById('attendanceBtn').addEventListener('click', function() {
-        const total = parseInt(document.getElementById('totalStudents').value);
-        const present = parseInt(document.getElementById('presentStudents').value);
-        const res = document.getElementById('attendanceResult');
-        if (total > 0 && present <= total) {
-            const perc = ((present / total) * 100).toFixed(1);
-            res.innerHTML = `✅ ${perc}% Attendance Saved!`;
-            res.style.color = "#44ff44";
-        } else {
-            res.innerText = "❌ Invalid Entry";
-            res.style.color = "#ff4444";
-        }
-    });
-
-    /* 6. Placeholder Logic */
-    function updatePlaceholders() {
-        const type = document.getElementById('docType').value;
-        const d1 = document.getElementById('detail1');
-        const d2 = document.getElementById('detail2');
-        if(type === 'mdm') { d1.placeholder = "Total Students Served"; d2.placeholder = "Month & Year"; }
-        else if(type === 'staff') { d1.placeholder = "Designation"; d2.placeholder = "Qualification/ID"; }
-        else if(type === 'marksheet') { d1.placeholder = "Class"; d2.placeholder = "Academic Session"; }
-        else if(type === 'roll') { d1.placeholder = "Class"; d2.placeholder = "Academic Session"; }
-        else { d1.placeholder = "Class / Designation"; d2.placeholder = "Roll No / Details"; }
-    }
-
-    /* 7. PDF Logic with Refined Tables */
     function masterGeneratePDF() {
         const type = document.getElementById('docType').value;
         const name = document.getElementById('mainName').value;
         const d1 = document.getElementById('detail1').value;
         const d2 = document.getElementById('detail2').value;
-        
-        if(!name || !d1) return alert("Please fill in the Name and Details");
+        if(!name || !d1) return alert("Please fill Name and Details");
 
-        const content = document.getElementById('pdf-dynamic-content');
         document.getElementById('pdf-date-field').innerText = new Date().toLocaleDateString('en-IN');
+        const content = document.getElementById('pdf-dynamic-content');
+        content.innerHTML = `<h3 style="text-align:center;">${type.toUpperCase()}</h3><p>Name: ${name}<br>Details: ${d1}, ${d2}</p>`;
 
-        let html = `<h3 style="text-align:center; text-decoration:underline; margin-bottom:20px; color:#000;">${type.replace('_',' ').toUpperCase()}</h3>`;
-        
-        if(type === 'bonafide') {
-            html += `<p style="font-size:18px; line-height:1.6; color:#000;">This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> under Roll No <b>${d2}</b> of this institution. His/Her conduct has been found satisfactory during the period.</p>`;
-        } 
-        else if(type === 'marksheet') {
-            html += `<p style="color:#000;"><b>Student Name:</b> ${name} | <b>Class:</b> ${d1} | <b>Session:</b> ${d2}</p>
-                     <table class="pdf-table">
-                        <tr><th>Subject</th><th>Max Marks</th><th>Obtained</th><th>Grade</th></tr>
-                        <tr><td>English</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr><td>Mathematics</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr><td>Science/EVS</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr><td>Urdu/Kashmiri</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr style="font-weight:bold;"><td>TOTAL</td><td>400</td><td>---</td><td>---</td></tr>
-                     </table>`;
-        }
-        else if(type === 'staff') {
-            html += `<table class="pdf-table">
-                        <tr><th>Name of Official</th><th>Designation</th><th>Qualification/ID</th><th>Remarks</th></tr>
-                        <tr><td>${name}</td><td>${d1}</td><td>${d2}</td><td>Present</td></tr>
-                     </table>`;
-        }
-        else if(type === 'mdm') {
-            html += `<p style="color:#000;"><b>Month:</b> ${d2} | <b>Total Students Served:</b> ${d1}</p>
-                     <table class="pdf-table">
-                        <tr><th>Date</th><th>Quantity of Rice (kg)</th><th>Menu Served</th><th>Remarks</th></tr>
-                        <tr><td>Daily Avg.</td><td>---</td><td>Rice/Pulses/Veg</td><td>Freshly Cooked</td></tr>
-                     </table>`;
-        }
-        else if(type === 'roll') {
-            html += `<p style="color:#000;"><b>Class:</b> ${d1} | <b>Session:</b> ${d2}</p>
-                     <table class="pdf-table">
-                        <tr><th>Roll No</th><th>Name of Student</th><th>Parentage</th><th>Category</th></tr>
-                        <tr><td>${d2}</td><td>${name}</td><td>---</td><td>---</td></tr>
-                     </table>`;
-        }
-        else if(type === 'duty') {
-            html += `<p style="font-size:18px; line-height:1.6; color:#000;">Certified that <b>${name.toUpperCase()}</b>, Designation: <b>${d1}</b>, has performed his/her official duty regarding <b>${d2}</b> at this school on ${new Date().toLocaleDateString('en-IN')}.</p>`;
-        }
-
-        content.innerHTML = html;
-        
         const element = document.getElementById('master-template');
-        const opt = {
-            margin: 0.5,
-            filename: `${type}_report_${name}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-
+        const opt = { margin: 0.5, filename: `${type}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
         html2pdf().set(opt).from(element).save();
     }
 
-    function chatOpen() { alert("AI Assistant: Ready to help GPS Pethgam!"); }
+    function chatOpen() { alert("AI Assistant Ready!"); }
 </script>
 
 </body>
 </html>
-                
+    
