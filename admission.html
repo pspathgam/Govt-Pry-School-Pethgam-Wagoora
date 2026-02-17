@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission | GPS Pethgam Wagoora</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #10b981;
+            --text-dark: #1f2937;
+            --bg-light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; color: var(--text-dark); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Hero */
+        .admission-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1500');
+            background-size: cover; background-position: center;
+            color: white; text-align: center; padding: 80px 20px;
+        }
+
+        /* Steps Section */
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; text-align: center; }
+        .step-card { padding: 20px; background: var(--bg-light); border-radius: 10px; position: relative; }
+        .step-num { background: var(--secondary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: inline-block; line-height: 30px; margin-bottom: 10px; }
+
+        /* Form Styling */
+        .form-container { background: var(--white); border: 1px solid #ddd; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        
+        /* Document Table */
+        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .doc-table th { background: var(--primary-color); color: white; }
+
+        .btn-submit { background: var(--primary-color); color: white; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%; transition: 0.3s; }
+        .btn-submit:hover { background: var(--secondary-color); }
+    </style>
+</head>
+<body>
+
+    <header class="admission-hero">
+        <h1>Admission Process 2026-27</h1>
+        <p>Start Your Child's Journey at GPS Pethgam Wagoora</p>
+    </header>
+
+    <div class="container">
+        
+        <h2 style="text-align: center; color: var(--primary-color);">Simple 3-Step Process</h2>
+        <div class="steps">
+            <div class="step-card"><span class="step-num">1</span><h3>Online Inquiry</h3><p>Fill the form below with basic details.</p></div>
+            <div class="step-card"><span class="step-num">2</span><h3>Document Review</h3><p>Bring original documents for verification.</p></div>
+            <div class="step-card"><span class="step-num">3</span><h3>Final Enrollment</h3><p>Get the admission confirmed and collect books.</p></div>
+        </div>
+
+        <section style="margin: 60px 0;">
+            <h2 style="color: var(--primary-color);"><i class="fas fa-file-invoice"></i> Required Documents</h2>
+            <table class="doc-table">
+                <tr><th>Document Type</th><th>Requirement</th></tr>
+                <tr><td>Birth Certificate</td><td>Compulsory (Municipal/Panchayat)</td></tr>
+                <tr><td>Aadhar Card</td><td>Copy of Student & Guardian</td></tr>
+                <tr><td>Previous School Records</td><td>Transfer Certificate (if applicable)</td></tr>
+                <tr><td>Passport Photos</td><td>4 Recent Color Photographs</td></tr>
+            </table>
+        </section>
+
+        <section class="form-container">
+            <h2 style="text-align: center; color: var(--primary-color);">Registration Form</h2>
+            <form action="#">
+                <div class="form-group">
+                    <label>Student Full Name</label>
+                    <input type="text" placeholder="Enter full name" required>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Date of Birth</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Class Seeking Admission</label>
+                        <select required>
+                            <option value="">Select Class</option>
+                            <option>Nursery/Pre-Primary</option>
+                            <option>Class 1st</option>
+                            <option>Class 2nd</option>
+                            <option>Class 3rd</option>
+                            <option>Class 4th</option>
+                            <option>Class 5th</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Parent/Guardian Name</label>
+                    <input type="text" placeholder="Enter father/mother name" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" placeholder="Phone number for SMS alerts" required>
+                </div>
+                <div class="form-group">
+                    <label>Residential Address</label>
+                    <input type="text" placeholder="House No / Mohalla / Ward">
+                </div>
+                <button type="submit" class="btn-submit">Submit Registration Inquiry</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer style="text-align: center; padding: 40px; color: var(--text-light);">
+        <p>Need help? Contact the School Office: <strong>+91-XXXX-XXXXXX</strong></p>
+    </footer>
+
+</body>
+</html>
+
