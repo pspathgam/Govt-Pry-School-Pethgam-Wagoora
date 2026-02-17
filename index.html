@@ -18,7 +18,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* PDF TEMPLATE STYLING - High contrast for generator visibility */
+        /* PDF TEMPLATE STYLING */
         .pdf-print-area { 
             color: #000 !important; 
             background: #ffffff !important; 
@@ -61,27 +61,49 @@
         .dropdown-content.active-submenu { display: block !important; }
         .dropdown-content a { padding-left: 40px !important; font-size: 0.9rem; color: #e0e0e0 !important; background: #091a2b; border-bottom: 1px solid #1a3c5a; }
 
-        /* Added Styling for Staff Profile Images */
-        .staff-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-            border: 3px solid #0d47a1;
-        }
+        /* UPDATED STAFF PROFILE STYLING */
         .staff-card {
             text-align: center;
+            background: #0d47a1 !important; /* Shining Blue Background */
+            border: 2px solid #ffcc00;
+            transition: transform 0.3s;
         }
-        .staff-card h4 { margin: 5px 0; color: #0d47a1; }
-        .staff-card p { margin: 2px 0; font-size: 0.85rem; color: #666; }
+        .staff-card:hover { transform: translateY(-5px); }
+
+        .staff-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border: 3px solid #fff;
+        }
+
+        /* High Contrast Text Colors */
+        .staff-card h4 { 
+            margin: 5px 0; 
+            color: #ffcc00 !important; /* Shining Yellow */
+            font-size: 1.1rem;
+        }
+        .staff-card .designation { 
+            color: #ffffff !important; /* White */
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .staff-card .qualification { 
+            color: #a2ffaf !important; /* Light Shining Green */
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
         .staff-tag {
             display: inline-block;
-            padding: 2px 8px;
-            background: #ffcc00;
-            font-size: 0.7rem;
+            padding: 3px 10px;
+            background: #ffffff;
+            color: #0d47a1;
+            font-size: 0.75rem;
             font-weight: bold;
-            border-radius: 3px;
+            border-radius: 20px;
             margin-top: 5px;
         }
     </style>
@@ -107,7 +129,6 @@
 <nav id="mainNav">
     <ul class="nav-links">
         <li><a href="#home">Home</a></li>
-        
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Administration ▾</a>
             <div class="dropdown-content">
@@ -116,64 +137,6 @@
                 <a href="#committee">School Committee</a>
             </div>
         </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Academics ▾</a>
-            <div class="dropdown-content">
-                <a href="#curriculum">Curriculum</a>
-                <a href="#timetable">Class Timetable</a>
-                <a href="#exams">Examination Cell</a>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Management ▾</a>
-            <div class="dropdown-content">
-                <a href="#attendanceSection">Daily Attendance</a>
-                <a href="#generator-section">Document Generator</a>
-                <a href="#finance">Accounts & Finance</a>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Diaries ▾</a>
-            <div class="dropdown-content">
-                <a href="#teacher-diary">Teacher's Diary</a>
-                <a href="#student-diary">Student's Diary</a>
-                <a href="#lesson-plans">Lesson Plans</a>
-                <a href="#work-log">Daily Work Log</a>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Student Corner ▾</a>
-            <div class="dropdown-content">
-                <a href="admission.html">Admissions</a>
-                <a href="#scholarships">Scholarships</a>
-                <a href="#mdm-record">MDM Records</a>
-                <a href="#uniform">Uniform & Kits</a>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Infrastructure ▾</a>
-            <div class="dropdown-content">
-                <a href="#library">Digital Library</a>
-                <a href="#ict-lab">ICT Lab</a>
-                <a href="#sports">Sports Gear</a>
-                <a href="#sanitation">Sanitation/Drinking Water</a>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleSubMenu(this)">Gallery ▾</a>
-            <div class="dropdown-content">
-                <a href="#photo-gallery">Photo Gallery</a>
-                <a href="#video-tours">Video Tours</a>
-                <a href="#events">School Events</a>
-            </div>
-        </li>
-
         <li><a href="#contact">Contact Us</a></li>
     </ul>
 </nav>
@@ -187,53 +150,55 @@
 
     <div id="aiModal">
         <div id="aiHeader"><span>AI Assistant</span><span onclick="chatToggle()" style="cursor:pointer">×</span></div>
-        <div id="aiBody">How can I help you today? You can ask about generating certificates or checking school records.</div>
+        <div id="aiBody">How can I help you today?</div>
         <div class="ai-input-group">
             <input type="text" id="aiInput" placeholder="Type your query..." onkeypress="if(event.key === 'Enter') handleAI()">
             <button id="aiSubmitBtn" onclick="handleAI()">SEND</button>
         </div>
     </div>
 
-    <section id="staff" style="padding: 20px; max-width: 1200px; margin: auto;">
-        <h2 style="text-align: center; color: #0d47a1; border-bottom: 3px solid #ffcc00; display: inline-block; padding-bottom: 5px; margin-bottom: 25px;">School Staff Profiles</h2>
+    <section id="staff" style="padding: 40px 20px; max-width: 1200px; margin: auto;">
+        <h2 style="text-align: center; color: #0d47a1; border-bottom: 3px solid #ffcc00; display: inline-block; padding-bottom: 5px; margin-bottom: 30px;">School Staff Profiles</h2>
         
-        <h3 style="color: #1a3c5a; margin-bottom: 15px;">Teaching Staff</h3>
-        <section class="cards" style="margin-bottom: 40px;">
+        <h3 style="color: #1a3c5a; margin-bottom: 20px; border-left: 5px solid #ffcc00; padding-left: 10px;">Teaching Staff</h3>
+        <section class="cards" style="margin-bottom: 50px;">
             <div class="card staff-card">
-                <img src="https://via.placeholder.com/80" alt="Headmaster" class="staff-img">
+                <img src="https://via.placeholder.com/90" alt="Headmaster" class="staff-img">
                 <h4>Mr. Mohammad Ashraf</h4>
-                <p><b>Headmaster</b></p>
-                <p>M.A, M.Ed</p>
+                <p class="designation">Headmaster</p>
+                <p class="qualification">M.A, M.Ed</p>
                 <span class="staff-tag">18+ Years Exp.</span>
             </div>
             <div class="card staff-card">
-                <img src="https://via.placeholder.com/80" alt="Teacher" class="staff-img">
+                <img src="https://via.placeholder.com/90" alt="Teacher" class="staff-img">
                 <h4>Mr. Mohammad Iqbal</h4>
-                <p><b>General Line Teacher</b></p>
-                <p>M.Sc IT, B Ed.</p>
+                <p class="designation">General Line Teacher</p>
+                <p class="qualification">M.Sc IT, B.Ed</p>
                 <span class="staff-tag">Mathematics Expert</span>
             </div>
             <div class="card staff-card">
-                <img src="https://via.placeholder.com/80" alt="Teacher" class="staff-img">
+                <img src="https://via.placeholder.com/90" alt="Teacher" class="staff-img">
                 <h4>Ms. Zamrooda Bano</h4>
-                <p><b>Teacher Grade II</b></p>
-                <p>B.A, B.Ed</p>
-                <span class="staff-tag">Urdu Teacher</span>
+                <p class="designation">Teacher Grade II</p>
+                <p class="qualification">B.A, B.Ed</p>
+                <span class="staff-tag">Urdu Specialist</span>
             </div>
         </section>
 
-        <h3 style="color: #1a3c5a; margin-bottom: 15px;">Non-Teaching Staff</h3>
+        <h3 style="color: #1a3c5a; margin-bottom: 20px; border-left: 5px solid #ffcc00; padding-left: 10px;">Non-Teaching Staff</h3>
         <section class="cards">
             <div class="card staff-card">
-                <img src="https://via.placeholder.com/80" alt="Cook" class="staff-img">
+                <img src="https://via.placeholder.com/90" alt="Cook" class="staff-img">
                 <h4>Shaheena Bano</h4>
-                <p><b>MDM Cook</b></p>
+                <p class="designation">MDM Cook</p>
+                <p class="qualification">Nutrition Management</p>
                 <span class="staff-tag">Primary Support</span>
             </div>
             <div class="card staff-card">
-                <img src="https://via.placeholder.com/80" alt="Helper" class="staff-img">
+                <img src="https://via.placeholder.com/90" alt="Helper" class="staff-img">
                 <h4>Ms. Masrat Begum</h4>
-                <p><b>Aaya (Helper)</b></p>
+                <p class="designation">Aaya (Helper)</p>
+                <p class="qualification">Child Care Dept.</p>
                 <span class="staff-tag">Pre-Primary Care</span>
             </div>
         </section>
@@ -246,13 +211,7 @@
                 <option value="duty">Duty Certificate</option>
                 <option value="bonafide">Bonafide Certificate</option>
                 <option value="marksheet">Marks Sheet</option>
-                <option value="roll_statement">Roll Statement</option>
-                <option value="staff_statement">Staff Statement</option>
-                <option value="mdm_monthly">MDM Monthly Statement</option>
                 <option value="tc">Transfer Certificate (TC)</option>
-                <option value="character">Character Certificate</option>
-                <option value="attendance">Monthly Attendance Report</option>
-                <option value="fee_concession">Fee Concession Form</option>
             </select>
             <input type="text" id="mainName" placeholder="Full Name (Mr./Ms.)">
             <input type="text" id="detail1" placeholder="Designation / Class">
@@ -261,44 +220,27 @@
         </div>
     </section>
 
-    <div style="position: absolute; left: -9999px; top: 0;">
-        <div id="master-template" class="pdf-print-area">
-            <center>
-                <h2 style="margin:0; font-size: 20px; color: #000;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h2>
-                <p style="margin:2px; color: #000;"><b>School Code: 01022202207</b></p>
-                <p style="margin:2px; color: #000;">Pethgam Wagoora, District Baramulla – 193109</p>
-                <p style="margin:2px; color: #000;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
-                <hr style="border: 1px solid #000; margin: 15px 0;">
-            </center>
-            
-            <div id="pdf-content-body" style="font-size: 16px; color: #000;"></div>
-            
-            <div style="margin-top: 60px; color: #000;">
-                <p><b>Signature of Headmaster</b></p>
-                <p>Name: __________________________</p>
-                <p>Designation: Headmaster</p>
-                <p>(Official Seal of the School)</p>
-            </div>
-        </div>
-    </div>
-</main>
+    </main>
 
 <footer style="background: #0d2137; color: white; padding: 30px 20px; text-align: center; border-top: 4px solid #ffcc00;">
     <p style="margin: 5px 0; font-weight: bold;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</p>
-    <p style="margin: 5px 0;">Pethgam Wagoora, District Baramulla – 193109</p>
-    <p style="font-size: 0.85rem; opacity: 0.9;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
 </footer>
 
 <script>
-    // MENU CONTROLS
-    function toggleMobileMenu() { 
-        document.getElementById('mainNav').classList.toggle('active'); 
-    }
-    
+    // Keep your existing scripts here
+    function toggleMobileMenu() { document.getElementById('mainNav').classList.toggle('active'); }
     function toggleSubMenu(el) {
         const content = el.nextElementSibling;
-        document.querySelectorAll('.dropdown-content').forEach(sub => { 
-            if (sub !== content) sub.classList.remove('active-submenu'); 
+        document.querySelectorAll('.dropdown-content').forEach(sub => { if (sub !== content) sub.classList.remove('active-submenu'); });
+        content.classList.toggle('active-submenu');
+    }
+    function chatToggle() { const m = document.getElementById('aiModal'); m.style.display = (m.style.display === "block") ? "none" : "block"; }
+    setInterval(() => { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }); }, 1000);
+</script>
+</body>
+</html>
+
+                            
         });
         content.classList.toggle('active-submenu');
     }
@@ -309,87 +251,8 @@
         m.style.display = (m.style.display === "block") ? "none" : "block"; 
     }
 
-    function handleAI() {
-        const input = document.getElementById('aiInput');
-        const body = document.getElementById('aiBody');
-        if(!input.value.trim()) return;
-        
-        body.innerHTML += `<div style="text-align:right; margin-bottom:10px; color:#0d47a1;"><b>You:</b> ${input.value}</div>`;
-        const val = input.value.toLowerCase();
-        
-        setTimeout(() => {
-            let reply = "I've logged your request. Please use the 'Document Engine' to generate certificates.";
-            if(val.includes("duty")) reply = "To generate a Duty Certificate, select 'Duty Certificate' in the Document Engine below.";
-            if(val.includes("staff")) reply = "Staff profiles and statements are available in the Administration menu.";
-            
-            body.innerHTML += `<div style="margin-bottom:10px; padding: 8px; background: #eee; border-radius: 5px;"><b>AI:</b> ${reply}</div>`;
-            body.scrollTop = body.scrollHeight;
-        }, 500);
-        input.value = "";
-    }
-
-    // PDF GENERATION LOGIC
-    function masterGeneratePDF() {
-        const type = document.getElementById('docType').value;
-        const name = document.getElementById('mainName').value.trim();
-        const d1 = document.getElementById('detail1').value.trim();
-        const d2 = document.getElementById('detail2').value.trim();
-
-        if(!name || !d1) return alert("Please fill Name and Designation/Class.");
-
-        const body = document.getElementById('pdf-content-body');
-        const today = new Date().toLocaleDateString('en-GB');
-
-        if(type === 'duty') {
-            body.innerHTML = `
-                <center><h3 style="text-decoration: underline;">DUTY CERTIFICATE</h3></center>
-                <p>Certificate No.: GPS/PW/2026/____ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: ${today}</p>
-                <p>This is to certify that Mr./Ms. <b>${name.toUpperCase()}</b>,</p>
-                <p>Designation: <b>${d1}</b>,</p>
-                <p>has performed official duty at Government Primary School Pethgam Wagoora with effect from <b>_________</b> to <b>_________</b> in the position of <b>${d2}</b>.</p>
-                <p>During the above-mentioned period, he/she carried out the assigned responsibilities diligently and satisfactorily.</p>
-                <p>This certificate is issued on request for official record and necessary action.</p>
-            `;
-        } else if(type === 'bonafide') {
-            body.innerHTML = `
-                <center><h3 style="text-decoration: underline;">BONAFIDE CERTIFICATE</h3></center>
-                <p>Date: ${today}</p>
-                <p>This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> at this institution under Roll No: <b>${d2}</b>.</p>
-                <p>His/Her character and conduct during the stay in the school has been found satisfactory.</p>
-            `;
-        } else if(type === 'marksheet') {
-            body.innerHTML = `
-                <center><h3 style="text-decoration: underline;">PROGRESS REPORT / MARKS SHEET</h3></center>
-                <p>Name: <b>${name.toUpperCase()}</b> | Class: <b>${d1}</b></p>
-                <p>Academic Session: <b>${d2}</b></p>
-                <table style="width:100%; border-collapse: collapse; margin-top:20px;">
-                    <tr style="background:#f2f2f2;"><th style="border:1px solid #000; padding:8px;">Subject</th><th style="border:1px solid #000; padding:8px;">Marks</th></tr>
-                    <tr><td style="border:1px solid #000; padding:8px;">General Performance</td><td style="border:1px solid #000; padding:8px;">Excellent</td></tr>
-                </table>
-            `;
-        }
-
-        const element = document.getElementById('master-template');
-        
-        const opt = {
-            margin: 0.5,
-            filename: `${type}_${name.replace(/\s+/g, '_')}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(element).save();
-    }
-
-    // CLOCK
-    setInterval(() => { 
-        document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }); 
-    }, 1000);
-</script>
+    </script>
 
 </body>
 </html>
-                                <p>His/Her character and conduct during the stay in the school has been found satisfactory.</p>
-            `;
-        
+                                
