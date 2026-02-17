@@ -60,6 +60,30 @@
         .dropdown-content { display: none; background-color: #0d2137; width: 100%; position: relative; }
         .dropdown-content.active-submenu { display: block !important; }
         .dropdown-content a { padding-left: 40px !important; font-size: 0.9rem; color: #e0e0e0 !important; background: #091a2b; border-bottom: 1px solid #1a3c5a; }
+
+        /* Added Styling for Staff Profile Images */
+        .staff-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid #0d47a1;
+        }
+        .staff-card {
+            text-align: center;
+        }
+        .staff-card h4 { margin: 5px 0; color: #0d47a1; }
+        .staff-card p { margin: 2px 0; font-size: 0.85rem; color: #666; }
+        .staff-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #ffcc00;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -170,23 +194,66 @@
         </div>
     </div>
 
+    <section id="staff" style="padding: 20px; max-width: 1200px; margin: auto;">
+        <h2 style="text-align: center; color: #0d47a1; border-bottom: 3px solid #ffcc00; display: inline-block; padding-bottom: 5px; margin-bottom: 25px;">School Staff Profiles</h2>
+        
+        <h3 style="color: #1a3c5a; margin-bottom: 15px;">Teaching Staff</h3>
+        <section class="cards" style="margin-bottom: 40px;">
+            <div class="card staff-card">
+                <img src="https://via.placeholder.com/80" alt="Headmaster" class="staff-img">
+                <h4>Mr. Bashir Ahmed</h4>
+                <p><b>Headmaster</b></p>
+                <p>M.A, B.Ed</p>
+                <span class="staff-tag">15+ Years Exp.</span>
+            </div>
+            <div class="card staff-card">
+                <img src="https://via.placeholder.com/80" alt="Teacher" class="staff-img">
+                <h4>Ms. Farhat Jan</h4>
+                <p><b>General Line Teacher</b></p>
+                <p>M.Sc Physics</p>
+                <span class="staff-tag">Science Specialist</span>
+            </div>
+            <div class="card staff-card">
+                <img src="https://via.placeholder.com/80" alt="Teacher" class="staff-img">
+                <h4>Mr. Showkat Ali</h4>
+                <p><b>RRT Teacher</b></p>
+                <p>B.A, B.Ed</p>
+                <span class="staff-tag">Mathematics</span>
+            </div>
+        </section>
+
+        <h3 style="color: #1a3c5a; margin-bottom: 15px;">Non-Teaching Staff</h3>
+        <section class="cards">
+            <div class="card staff-card">
+                <img src="https://via.placeholder.com/80" alt="Cook" class="staff-img">
+                <h4>Saja Begum</h4>
+                <p><b>MDM Cook</b></p>
+                <span class="staff-tag">Primary Support</span>
+            </div>
+            <div class="card staff-card">
+                <img src="https://via.placeholder.com/80" alt="Helper" class="staff-img">
+                <h4>Ab. Rashid</h4>
+                <p><b>CPW (Helper)</b></p>
+                <span class="staff-tag">Campus Care</span>
+            </div>
+        </section>
+    </section>
+
     <section class="cards" id="quick-actions">
         <div class="card" id="generator-section">
             <h3>📜 Document Engine</h3>
-<select id="docType">
-    <option value="duty">Duty Certificate</option>
-    <option value="bonafide">Bonafide Certificate</option>
-    <option value="marksheet">Marks Sheet</option>
-    
-    <option value="roll_statement">Roll Statement</option>
-    <option value="staff_statement">Staff Statement</option>
-    <option value="mdm_monthly">MDM Monthly Statement</option>
-    
-    <option value="tc">Transfer Certificate (TC)</option>
-    <option value="character">Character Certificate</option>
-    <option value="attendance">Monthly Attendance Report</option>
-    <option value="fee_concession">Fee Concession Form</option>
-</select>
+            <select id="docType">
+                <option value="duty">Duty Certificate</option>
+                <option value="bonafide">Bonafide Certificate</option>
+                <option value="marksheet">Marks Sheet</option>
+                <option value="roll_statement">Roll Statement</option>
+                <option value="staff_statement">Staff Statement</option>
+                <option value="mdm_monthly">MDM Monthly Statement</option>
+                <option value="tc">Transfer Certificate (TC)</option>
+                <option value="character">Character Certificate</option>
+                <option value="attendance">Monthly Attendance Report</option>
+                <option value="fee_concession">Fee Concession Form</option>
+            </select>
             <input type="text" id="mainName" placeholder="Full Name (Mr./Ms.)">
             <input type="text" id="detail1" placeholder="Designation / Class">
             <input type="text" id="detail2" placeholder="Position / Year / Period">
@@ -253,7 +320,7 @@
         setTimeout(() => {
             let reply = "I've logged your request. Please use the 'Document Engine' to generate certificates.";
             if(val.includes("duty")) reply = "To generate a Duty Certificate, select 'Duty Certificate' in the Document Engine below.";
-            if(val.includes("staff")) reply = "Staff statements are available under the Administration menu.";
+            if(val.includes("staff")) reply = "Staff profiles and statements are available in the Administration menu.";
             
             body.innerHTML += `<div style="margin-bottom:10px; padding: 8px; background: #eee; border-radius: 5px;"><b>AI:</b> ${reply}</div>`;
             body.scrollTop = body.scrollHeight;
@@ -323,4 +390,6 @@
 
 </body>
 </html>
-                
+                                <p>His/Her character and conduct during the stay in the school has been found satisfactory.</p>
+            `;
+        
