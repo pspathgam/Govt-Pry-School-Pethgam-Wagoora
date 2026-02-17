@@ -12,7 +12,7 @@
             --primary-color: #1e3a8a;
             --secondary-color: #10b981;
             --text-dark: #1f2937;
-            --text-light: #6b7280; /* Fixed missing variable */
+            --text-light: #6b7280;
             --bg-light: #f3f4f6;
             --white: #ffffff;
         }
@@ -20,19 +20,16 @@
         body { font-family: 'Segoe UI', sans-serif; margin: 0; color: var(--text-dark); }
         .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
 
-        /* Hero */
         .admission-hero {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1500');
             background-size: cover; background-position: center;
             color: white; text-align: center; padding: 80px 20px;
         }
 
-        /* Steps Section */
         .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; text-align: center; }
         .step-card { padding: 20px; background: var(--bg-light); border-radius: 10px; position: relative; }
         .step-num { background: var(--secondary-color); color: white; width: 30px; height: 30px; border-radius: 50%; display: inline-block; line-height: 30px; margin-bottom: 10px; }
 
-        /* Form Styling */
         .form-container { background: var(--white); border: 1px solid #ddd; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .form-section-title { color: var(--primary-color); border-bottom: 2px solid var(--bg-light); padding-bottom: 10px; margin-top: 30px; margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase; }
         .form-group { margin-bottom: 20px; }
@@ -40,15 +37,30 @@
         .form-row .form-group { flex: 1; min-width: 200px; }
         
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
         
+        /* Photo Upload Style */
+        .photo-upload-container {
+            display: flex; justify-content: flex-end; margin-bottom: -100px; position: relative; z-index: 10;
+        }
+        .photo-box {
+            width: 120px; height: 140px; border: 2px dashed #ccc; border-radius: 5px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; background: #fff; cursor: pointer; overflow: hidden;
+        }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .photo-box i { font-size: 2rem; color: #ccc; }
+        .photo-box span { font-size: 0.7rem; color: #888; margin-top: 5px; padding: 0 5px; }
+
         .btn-submit { background: var(--primary-color); color: white; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%; transition: 0.3s; margin-top: 20px;}
         .btn-submit:hover { background: var(--secondary-color); }
         
         .declaration { font-size: 0.85rem; color: var(--text-light); border: 1px solid #eee; padding: 15px; border-radius: 5px; margin-top: 20px; }
-
-        /* Print Specific Hide - Hide UI elements in PDF */
         .no-print { display: block; }
+
+        @media (max-width: 600px) {
+            .photo-upload-container { justify-content: center; margin-bottom: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -63,30 +75,23 @@
         <div class="no-print">
             <h2 style="text-align: center; color: var(--primary-color);">Our 4-Step Admission Process</h2>
             <div class="steps">
-                <div class="step-card">
-                    <span class="step-num">1</span>
-                    <h3>Online Form</h3>
-                    <p>Fill out all specific details required by the department.</p>
-                </div>
-                <div class="step-card">
-                    <span class="step-num">2</span>
-                    <h3>Download PDF</h3>
-                    <p>Get your pre-filled official admission form.</p>
-                </div>
-                <div class="step-card">
-                    <span class="step-num">3</span>
-                    <h3>Printout</h3>
-                    <p>Take a hard copy printout for physical signing.</p>
-                </div>
-                <div class="step-card">
-                    <span class="step-num">4</span>
-                    <h3>Submission</h3>
-                    <p>Submit at office with photos and certificates.</p>
-                </div>
+                <div class="step-card"><span class="step-num">1</span><h3>Online Form</h3><p>Fill out all specific details.</p></div>
+                <div class="step-card"><span class="step-num">2</span><h3>Download PDF</h3><p>Get pre-filled official form.</p></div>
+                <div class="step-card"><span class="step-num">3</span><h3>Printout</h3><p>Take hard copy for signing.</p></div>
+                <div class="step-card"><span class="step-num">4</span><h3>Submission</h3><p>Submit at office with certificates.</p></div>
             </div>
         </div>
 
         <section class="form-container" id="printable-area">
+            <div class="photo-upload-container">
+                <div class="photo-box" onclick="document.getElementById('photoInput').click()">
+                    <i class="fas fa-user-plus" id="uploadIcon"></i>
+                    <span id="uploadText">UPLOAD PHOTO</span>
+                    <img id="photoPreview" src="" alt="Student Photo">
+                </div>
+                <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="previewImage(this)">
+            </div>
+
             <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 0;">OFFICIAL REGISTRATION FORM</h2>
             <p style="text-align: center; color: var(--text-light); margin-bottom: 25px;">UDISE Code: 01022202207</p>
             
@@ -98,12 +103,12 @@
                 </div>
                 <div class="form-group">
                     <label>Name as per Aadhaar Card</label>
-                    <input type="text" placeholder="Exact name as printed on Aadhaar" required>
+                    <input type="text" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Aadhaar Number</label>
-                        <input type="text" pattern="\d{12}" maxlength="12" placeholder="12 Digit Aadhaar No." required title="Please enter 12 digit Aadhaar number">
+                        <input type="text" pattern="\d{12}" maxlength="12" placeholder="12 Digit Aadhaar No." required>
                     </div>
                     <div class="form-group">
                         <label>Date of Birth (in figures)</label>
@@ -117,40 +122,19 @@
 
                 <div class="form-section-title">2. Family Details</div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Father's Name</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Father's Contact Number</label>
-                        <input type="tel" pattern="\d{10}" placeholder="10 Digit Mobile" required title="Please enter 10 digit mobile number">
-                    </div>
+                    <div class="form-group"><label>Father's Name</label><input type="text" required></div>
+                    <div class="form-group"><label>Father's Contact Number</label><input type="tel" pattern="\d{10}" required></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Mother's Name</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Mother's Contact Number</label>
-                        <input type="tel" pattern="\d{10}">
-                    </div>
+                    <div class="form-group"><label>Mother's Name</label><input type="text" required></div>
+                    <div class="form-group"><label>Mother's Contact Number</label><input type="tel" pattern="\d{10}"></div>
                 </div>
 
                 <div class="form-section-title">3. Residence & Academic Info</div>
-                <div class="form-group">
-                    <label>Residence (Village/Mohalla)</label>
-                    <input type="text" placeholder="Complete address" required>
-                </div>
+                <div class="form-group"><label>Residence (Village/Mohalla)</label><input type="text" required></div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Tehsil</label>
-                        <input type="text" value="Wagoora" required>
-                    </div>
-                    <div class="form-group">
-                        <label>District</label>
-                        <input type="text" value="Baramulla" required>
-                    </div>
+                    <div class="form-group"><label>Tehsil</label><input type="text" value="Wagoora" required></div>
+                    <div class="form-group"><label>District</label><input type="text" value="Baramulla" required></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -162,94 +146,90 @@
                             <option>Class 4th</option><option>Class 5th</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>PEN Number (For Transferring Students)</label>
-                        <input type="text" placeholder="Permanent Education Number">
-                    </div>
+                    <div class="form-group"><label>PEN Number</label><input type="text"></div>
                 </div>
 
-                <div class="form-section-title">4. Banking & Category (For Scholarship/DBT)</div>
+                <div class="form-section-title">4. Banking & Category</div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>Bank Account Number</label>
-                        <input type="text" placeholder="Student or Parent account">
-                    </div>
-                    <div class="form-group">
-                        <label>IFSC Code</label>
-                        <input type="text" maxlength="11" placeholder="Example: JAKA0WAGORA">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Bank Name</label>
-                        <input type="text" placeholder="e.g. J&K Bank">
-                    </div>
-                    <div class="form-group">
-                        <label>Bank Branch</label>
-                        <input type="text" placeholder="e.g. Wagoora">
-                    </div>
+                    <div class="form-group"><label>Bank Account Number</label><input type="text"></div>
+                    <div class="form-group"><label>IFSC Code</label><input type="text" placeholder="JAKA0WAGORA"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Category</label>
-                        <select required>
-                            <option>GENERAL</option><option>SC</option><option>ST</option><option>OBC</option>
-                        </select>
+                        <select required><option>GENERAL</option><option>SC</option><option>ST</option><option>OBC</option></select>
                     </div>
-                    <div class="form-group">
-                        <label>Blood Group</label>
-                        <input type="text" placeholder="e.g. O+">
-                    </div>
+                    <div class="form-group"><label>Blood Group</label><input type="text"></div>
                 </div>
 
                 <div class="declaration">
-                    <strong>Parents Declaration:</strong> I do hereby declare that the above information provided by me is true to the best of my knowledge and belief. I further declare that I will abide by the rules and regulations laid down by the school and the department.
+                    <strong>Parents Declaration:</strong> I do hereby declare that the above information is true to the best of my knowledge and belief.
                 </div>
                 
-                <div style="margin-top: 30px; display: flex; justify-content: space-between;" class="no-print">
-                    <p>____________________<br>Parent's Signature</p>
-                    <p>____________________<br>Headmaster Seal</p>
+                <div style="margin-top: 50px; display: flex; justify-content: space-between; padding-bottom: 20px;">
+                    <p style="border-top: 1px solid #000; width: 200px; text-align: center;">Parent's Signature</p>
+                    <p style="border-top: 1px solid #000; width: 200px; text-align: center;">Headmaster Seal</p>
                 </div>
 
                 <button type="submit" class="btn-submit no-print">Submit & Download Pre-filled PDF Form</button>
             </form>
         </section>
-
     </div>
 
-    <footer style="text-align: center; padding: 40px; color: var(--text-light);">
+    <footer style="text-align: center; padding: 40px; color: var(--text-light);" class="no-print">
         <p>Need help? Contact the School Office: <strong>+91-7006261694</strong></p>
     </footer>
 
     <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'block';
+                    document.getElementById('uploadIcon').style.display = 'none';
+                    document.getElementById('uploadText').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         document.getElementById('admissionForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const studentName = document.getElementById('studentName').value;
-            const className = document.getElementById('classSelected').value;
+            // FIX: Set values as attributes so html2pdf can "see" them
+            const inputs = this.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type !== 'file') {
+                    input.setAttribute('value', input.value);
+                    if(input.tagName === 'SELECT') {
+                        const selectedText = input.options[input.selectedIndex].text;
+                        input.setAttribute('value', selectedText);
+                    }
+                }
+            });
+
+            const studentName = document.getElementById('studentName').value || 'Student';
+            const className = document.getElementById('classSelected').value || 'Form';
             
-            // PDF Options
+            const element = document.getElementById('printable-area');
             const opt = {
-                margin: 0.5,
-                filename: `Admission_Form_${studentName}_${className}.pdf`,
+                margin: 0.3,
+                filename: `Admission_${studentName}_${className}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Generate PDF from the form container
-            const element = document.getElementById('printable-area');
-            
-            // Temporary hide the button from PDF
             const buttons = document.querySelectorAll('.no-print');
-            buttons.forEach(btn => btn.style.display = 'none');
+            buttons.forEach(b => b.style.display = 'none');
 
             html2pdf().set(opt).from(element).save().then(() => {
-                // Restore button visibility after download
-                buttons.forEach(btn => btn.style.display = 'block');
-                alert("Form Submitted Successfully! Your PDF is downloading.");
+                buttons.forEach(b => b.style.display = 'block');
+                alert("Form Downloaded successfully!");
             });
         });
     </script>
 </body>
-</html>
+</html>                       
+    
