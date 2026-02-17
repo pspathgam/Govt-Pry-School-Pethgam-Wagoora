@@ -10,32 +10,93 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* PDF PRINT RECOVERY - Fixes the "blank page/missing footer" issue */
+        /* 1. FOOTER FIX: Ensures address is never hidden under the screen margin */
+        body {
+            padding-bottom: 80px; /* Buffer for fixed footer visibility */
+        }
+
+        footer {
+            padding: 20px;
+            background: #0d2137;
+            color: white;
+            text-align: center;
+            border-top: 2px solid #ffcc00;
+        }
+
+        /* 2. AI ASSISTANT FIX: Added Submit Button & Scrolling Interface */
+        #aiModal { 
+            display: none; 
+            position: fixed; 
+            bottom: 90px; 
+            right: 20px; 
+            width: 320px; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            z-index: 2000; 
+            border: 1px solid #0d47a1; 
+            overflow: hidden; 
+        }
+        
+        #aiHeader { 
+            background: #0d47a1; 
+            color: white; 
+            padding: 12px; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        #aiBody { 
+            height: 280px; 
+            padding: 15px; 
+            overflow-y: auto; 
+            font-size: 0.9rem; 
+            color: #333; 
+            background: #f9f9f9;
+        }
+
+        .ai-input-container {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        #aiInput { 
+            border: none; 
+            flex-grow: 1;
+            padding: 12px; 
+            outline: none; 
+        }
+
+        #aiSubmitBtn {
+            background: #0d47a1;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #aiSubmitBtn:hover { background: #083375; }
+
+        /* 3. PDF PRINT RECOVERY */
         .pdf-print-area { 
             color: #000 !important; 
             background: #fff !important; 
             width: 800px; 
-            padding: 40px; 
+            padding: 50px; 
             font-family: 'Times New Roman', serif; 
             border: 10px double #0d47a1; 
         }
-        .pdf-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px; text-align: left; color: #000; }
-        .pdf-table th { background-color: #f2f2f2; }
         
-        /* NAVIGATION: Multi-level Click Menu */
+        /* NAVIGATION LOGIC */
         #mainNav { display: none; background: #1a3c5a; width: 100%; }
         #mainNav.active { display: block !important; }
-        .dropdown-content { display: none; background-color: #0d2137; width: 100%; position: relative; }
+        .dropdown-content { display: none; background-color: #0d2137; width: 100%; }
         .dropdown-content.active-submenu { display: block !important; }
         .nav-links { display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none; }
         .dropbtn, .nav-links li a { padding: 15px 20px; display: block; color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-
-        /* AI ASSISTANT MODAL */
-        #aiModal { display: none; position: fixed; bottom: 80px; right: 20px; width: 300px; background: white; border-radius: 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); z-index: 2000; border: 1px solid #0d47a1; overflow: hidden; }
-        #aiHeader { background: #0d47a1; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
-        #aiBody { height: 250px; padding: 10px; overflow-y: auto; font-size: 0.9rem; color: #333; }
-        #aiInput { border: none; border-top: 1px solid #ddd; width: 100%; padding: 10px; outline: none; }
     </style>
 </head>
 
@@ -49,7 +110,7 @@
             <p class="sub-header">SMART MANAGEMENT SYSTEM 2026</p>
         </div>
     </div>
-    <div id="liveDateTime" aria-live="polite"></div>
+    <div id="liveDateTime"></div>
 </header>
 
 <div class="menu-toggle" onclick="toggleMobileMenu()" style="cursor: pointer; padding: 15px; background: #0d47a1; color: white; text-align: center; font-weight: bold;">
@@ -72,7 +133,6 @@
             <div class="dropdown-content">
                 <a href="#attendanceSection">Daily Attendance</a>
                 <a href="#generator-section">Document Generator</a>
-                <a href="#middaymeal">MDM Daily Record</a>
             </div>
         </li>
         <li><a href="#contact">Contact</a></li>
@@ -82,24 +142,29 @@
 <main>
     <section class="hero" id="home">
         <h2>Smart AI-Based School Portal</h2>
-        <p>Seamlessly generate Marksheets, Staff Statements, and MDM Reports.</p>
+        <p>Seamlessly generate Marksheets and MDM Reports.</p>
         <button type="button" class="btn-ai" onclick="chatToggle()">Ask AI Assistant</button>
     </section>
 
     <div id="aiModal">
-        <div id="aiHeader"><span>Gemini AI Assistant</span><span onclick="chatToggle()" style="cursor:pointer">×</span></div>
-        <div id="aiBody">Welcome! I can help you generate documents or check school data. How can I assist you?</div>
-        <input type="text" id="aiInput" placeholder="Type your query..." onkeypress="if(event.key === 'Enter') handleAI()">
+        <div id="aiHeader">
+            <span>Gemini AI Assistant</span>
+            <span onclick="chatToggle()" style="cursor:pointer; font-size: 20px;">×</span>
+        </div>
+        <div id="aiBody">Hello! How can I help you with school management today?</div>
+        <div class="ai-input-container">
+            <input type="text" id="aiInput" placeholder="Type your query..." onkeypress="if(event.key === 'Enter') handleAI()">
+            <button id="aiSubmitBtn" onclick="handleAI()">SEND</button>
+        </div>
     </div>
 
     <section class="cards" id="quick-actions">
         <div class="card" id="generator-section">
             <h3>📜 Document Engine</h3>
-            <select id="docType" onchange="updatePlaceholders()">
+            <select id="docType">
                 <option value="bonafide">Bonafide Certificate</option>
                 <option value="marksheet">Marks Sheet</option>
                 <option value="staff">Staff Statement</option>
-                <option value="mdm">MDM Statement</option>
             </select>
             <input type="text" id="mainName" placeholder="Student/Staff Name">
             <input type="text" id="detail1" placeholder="Class / Designation">
@@ -110,8 +175,8 @@
         <div class="card">
             <h3>🌤 Weather & Notices</h3>
             <p id="weather">Fetching weather...</p>
-            <hr class="card-divider">
-            <p style="font-size: 0.85rem;">📢 Notice: Admissions 2026 Session starting soon.</p>
+            <hr>
+            <p style="font-size: 0.85rem;">📢 Notice: Admissions 2026 starting soon.</p>
         </div>
     </section>
 
@@ -121,38 +186,27 @@
                 <img src="file_0000000044d471fab24858b72be56d0a.png" style="height: 70px;">
                 <h1 style="margin:0; color:#0d47a1; font-size: 24px;">GOVERNMENT PRIMARY SCHOOL</h1>
                 <h2 style="margin:0; font-size: 18px;">PETHGAM WAGOORA</h2>
-                <p style="font-weight: bold; margin-bottom: 5px;">District: Baramulla | Zone: Wagoora | UDISE: 0102030405</p>
-                <hr style="border: 1px solid #000;">
+                <p><b>District: Baramulla</b> | Zone: Wagoora | UDISE: 0102030405</p>
+                <hr>
             </center>
-            
-            <div id="pdf-dynamic-content" style="min-height: 400px; color: #000; margin-top: 20px;"></div>
-            
-            <div style="margin-top: 50px; display: flex; justify-content: space-between; font-size: 14px;">
-                <div>
-                    <p><strong>Ref No:</strong> GPS/PW/2026/____</p>
-                    <p><strong>Date:</strong> <span id="pdf-date-field"></span></p>
-                    <p><strong>Place:</strong> Pethgam Wagoora, Baramulla</p>
-                </div>
-                <div style="text-align: center;">
-                    <br><br>
-                    <p><strong>__________________________</strong><br>
-                    Headmaster / Issuing Authority<br>
-                    GPS Pethgam Wagoora</p>
-                </div>
+            <div id="pdf-dynamic-content" style="min-height: 400px; margin-top: 20px;"></div>
+            <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+                <div><p>Date: <span id="pdf-date-field"></span><br>Place: Pethgam Wagoora</p></div>
+                <div style="text-align: center;"><p>__________________________<br>Headmaster / Authority</p></div>
             </div>
         </div>
     </div>
 </main>
 
 <footer>
-    <p>© 2026 Government Primary School Pethgam Wagoora | District Baramulla, Kashmir</p>
+    <p>© 2026 Government Primary School Pethgam Wagoora</p>
+    <p style="font-size: 0.8rem; opacity: 0.8;">Pethgam, Wagoora, District Baramulla, Kashmir - 193101</p>
 </footer>
 
 <script>
     /* MENU LOGIC */
     function toggleMobileMenu() {
-        const nav = document.getElementById('mainNav');
-        nav.classList.toggle('active');
+        document.getElementById('mainNav').classList.toggle('active');
     }
 
     function toggleSubMenu(el) {
@@ -163,7 +217,7 @@
         content.classList.toggle('active-submenu');
     }
 
-    /* AI ASSISTANT FUNCTIONALITY */
+    /* AI ASSISTANT LOGIC */
     function chatToggle() {
         const modal = document.getElementById('aiModal');
         modal.style.display = (modal.style.display === "block") ? "none" : "block";
@@ -172,63 +226,40 @@
     function handleAI() {
         const input = document.getElementById('aiInput');
         const body = document.getElementById('aiBody');
-        if(!input.value) return;
+        if(!input.value.trim()) return;
         
-        body.innerHTML += `<div style="margin-top:10px; color:#0d47a1;"><b>You:</b> ${input.value}</div>`;
+        body.innerHTML += `<div style="margin-top:10px; color:#0d47a1; text-align:right;"><b>You:</b> ${input.value}</div>`;
         
-        // Simulated AI Logic
+        const userQuery = input.value.toLowerCase();
         setTimeout(() => {
-            body.innerHTML += `<div style="margin-top:5px; color:#555;"><b>Gemini:</b> I've processed your request for "${input.value}". Use the Document Engine below to generate the specific PDF.</div>`;
+            let response = "I'm not sure about that. Try asking about 'attendance' or 'documents'.";
+            if(userQuery.includes("attendance")) response = "The attendance module is located under the Management menu.";
+            if(userQuery.includes("pdf") || userQuery.includes("document")) response = "You can generate Bonafide certificates and Marksheets using the Document Engine.";
+            
+            body.innerHTML += `<div style="margin-top:8px; color:#555; background:#eee; padding:8px; border-radius:5px;"><b>AI:</b> ${response}</div>`;
             body.scrollTop = body.scrollHeight;
         }, 600);
         
         input.value = "";
     }
 
-    /* PDF GENERATOR */
+    /* PDF LOGIC */
     function masterGeneratePDF() {
         const type = document.getElementById('docType').value;
         const name = document.getElementById('mainName').value;
         const d1 = document.getElementById('detail1').value;
-        const d2 = document.getElementById('detail2').value;
         
-        if(!name || !d1) return alert("Please fill Name and required details.");
+        if(!name || !d1) return alert("Fill Name and Details first!");
 
         document.getElementById('pdf-date-field').innerText = new Date().toLocaleDateString('en-IN');
-        const container = document.getElementById('pdf-dynamic-content');
+        document.getElementById('pdf-dynamic-content').innerHTML = `<h3>OFFICIAL ${type.toUpperCase()}</h3><p>This is to certify that ${name} of ${d1} has recorded satisfactory performance.</p>`;
 
-        let html = `<h3 style="text-align:center; text-decoration: underline; margin-bottom: 25px;">${type.replace('_', ' ').toUpperCase()}</h3>`;
-        
-        if(type === 'marksheet') {
-            html += `<p><b>Student:</b> ${name.toUpperCase()} | <b>Class:</b> ${d1} | <b>Roll No:</b> ${d2}</p>
-                     <table class="pdf-table">
-                        <tr><th>Subject</th><th>Max Marks</th><th>Obtained</th><th>Grade</th></tr>
-                        <tr><td>English</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr><td>Mathematics</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr><td>Science</td><td>100</td><td>---</td><td>---</td></tr>
-                        <tr style="font-weight:bold;"><td>TOTAL</td><td>300</td><td>---</td><td>---</td></tr>
-                     </table>`;
-        } else {
-            html += `<p style="font-size: 1.2rem; line-height: 1.8;">This is to certify that <b>${name.toUpperCase()}</b>, Designation/Class: <b>${d1}</b>, has officially performed duty/studied as <b>${d2}</b> at GPS Pethgam Wagoora.</p>`;
-        }
-
-        container.innerHTML = html;
         const element = document.getElementById('master-template');
-        const opt = { 
-            margin: 0.5, 
-            filename: `${type}_${name}.pdf`, 
-            image: { type: 'jpeg', quality: 0.98 }, 
-            html2canvas: { scale: 2, useCORS: true }, 
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } 
-        };
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set({ margin: 0.5, filename: `${type}.pdf`, html2canvas: { scale: 2 }, jsPDF: { format: 'a4' } }).from(element).save();
     }
 
-    /* UTILITIES */
-    function updateClock() { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN'); }
-    setInterval(updateClock, 1000);
-    updateClock();
-
+    /* CLOCK & WEATHER */
+    setInterval(() => { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN'); }, 1000);
     async function loadWeather() {
         try {
             const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=34.20&longitude=74.34&current_weather=true");
@@ -241,4 +272,4 @@
 
 </body>
 </html>
-                        
+                    
