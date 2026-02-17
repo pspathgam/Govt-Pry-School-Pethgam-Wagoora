@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission | PS Pethgam Wagoora</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
         :root {
             --primary-color: #1e3a8a;
             --secondary-color: #10b981;
             --text-dark: #1f2937;
+            --text-light: #6b7280; /* Fixed missing variable */
             --bg-light: #f3f4f6;
             --white: #ffffff;
         }
@@ -39,15 +42,13 @@
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
         
-        /* Document Table */
-        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .doc-table th { background: var(--primary-color); color: white; }
-
         .btn-submit { background: var(--primary-color); color: white; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%; transition: 0.3s; margin-top: 20px;}
         .btn-submit:hover { background: var(--secondary-color); }
         
         .declaration { font-size: 0.85rem; color: var(--text-light); border: 1px solid #eee; padding: 15px; border-radius: 5px; margin-top: 20px; }
+
+        /* Print Specific Hide - Hide UI elements in PDF */
+        .no-print { display: block; }
     </style>
 </head>
 <body>
@@ -59,39 +60,41 @@
 
     <div class="container">
         
-        <h2 style="text-align: center; color: var(--primary-color);">Our 4-Step Admission Process</h2>
-        <div class="steps">
-            <div class="step-card">
-                <span class="step-num">1</span>
-                <h3>Online Form</h3>
-                <p>Fill out all specific details required by the department.</p>
-            </div>
-            <div class="step-card">
-                <span class="step-num">2</span>
-                <h3>Download PDF</h3>
-                <p>Get your pre-filled official admission form.</p>
-            </div>
-            <div class="step-card">
-                <span class="step-num">3</span>
-                <h3>Printout</h3>
-                <p>Take a hard copy printout for physical signing.</p>
-            </div>
-            <div class="step-card">
-                <span class="step-num">4</span>
-                <h3>Submission</h3>
-                <p>Submit at office with photos and certificates.</p>
+        <div class="no-print">
+            <h2 style="text-align: center; color: var(--primary-color);">Our 4-Step Admission Process</h2>
+            <div class="steps">
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <h3>Online Form</h3>
+                    <p>Fill out all specific details required by the department.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <h3>Download PDF</h3>
+                    <p>Get your pre-filled official admission form.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <h3>Printout</h3>
+                    <p>Take a hard copy printout for physical signing.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">4</span>
+                    <h3>Submission</h3>
+                    <p>Submit at office with photos and certificates.</p>
+                </div>
             </div>
         </div>
 
-        <section class="form-container">
+        <section class="form-container" id="printable-area">
             <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 0;">OFFICIAL REGISTRATION FORM</h2>
             <p style="text-align: center; color: var(--text-light); margin-bottom: 25px;">UDISE Code: 01022202207</p>
             
-            <form action="#">
+            <form id="admissionForm">
                 <div class="form-section-title">1. Student Identity</div>
                 <div class="form-group">
                     <label>Student's Name (First - Middle - Last)</label>
-                    <input type="text" placeholder="Full Name as per School Records" required>
+                    <input type="text" id="studentName" placeholder="Full Name as per School Records" required>
                 </div>
                 <div class="form-group">
                     <label>Name as per Aadhaar Card</label>
@@ -100,7 +103,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Aadhaar Number</label>
-                        <input type="text" maxlength="12" placeholder="12 Digit Aadhaar No." required>
+                        <input type="text" pattern="\d{12}" maxlength="12" placeholder="12 Digit Aadhaar No." required title="Please enter 12 digit Aadhaar number">
                     </div>
                     <div class="form-group">
                         <label>Date of Birth (in figures)</label>
@@ -120,7 +123,7 @@
                     </div>
                     <div class="form-group">
                         <label>Father's Contact Number</label>
-                        <input type="tel" required>
+                        <input type="tel" pattern="\d{10}" placeholder="10 Digit Mobile" required title="Please enter 10 digit mobile number">
                     </div>
                 </div>
                 <div class="form-row">
@@ -130,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mother's Contact Number</label>
-                        <input type="tel">
+                        <input type="tel" pattern="\d{10}">
                     </div>
                 </div>
 
@@ -152,7 +155,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Class Joining</label>
-                        <select required>
+                        <select id="classSelected" required>
                             <option value="">Select Class</option>
                             <option>PP3</option><option>PP2</option><option>BALVATIKA</option>
                             <option>Class 1st</option><option>Class 2nd</option><option>Class 3rd</option>
@@ -173,7 +176,7 @@
                     </div>
                     <div class="form-group">
                         <label>IFSC Code</label>
-                        <input type="text" placeholder="Example: JAKA0WAGORA">
+                        <input type="text" maxlength="11" placeholder="Example: JAKA0WAGORA">
                     </div>
                 </div>
                 <div class="form-row">
@@ -198,22 +201,17 @@
                         <input type="text" placeholder="e.g. O+">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Ration Card Number</label>
-                        <input type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Ration Card Type (PHH/NPHH/AAY)</label>
-                        <input type="text">
-                    </div>
-                </div>
 
                 <div class="declaration">
                     <strong>Parents Declaration:</strong> I do hereby declare that the above information provided by me is true to the best of my knowledge and belief. I further declare that I will abide by the rules and regulations laid down by the school and the department.
                 </div>
+                
+                <div style="margin-top: 30px; display: flex; justify-content: space-between;" class="no-print">
+                    <p>____________________<br>Parent's Signature</p>
+                    <p>____________________<br>Headmaster Seal</p>
+                </div>
 
-                <button type="submit" class="btn-submit">Submit & Download Pre-filled PDF Form</button>
+                <button type="submit" class="btn-submit no-print">Submit & Download Pre-filled PDF Form</button>
             </form>
         </section>
 
@@ -223,6 +221,35 @@
         <p>Need help? Contact the School Office: <strong>+91-7006261694</strong></p>
     </footer>
 
+    <script>
+        document.getElementById('admissionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value;
+            const className = document.getElementById('classSelected').value;
+            
+            // PDF Options
+            const opt = {
+                margin: 0.5,
+                filename: `Admission_Form_${studentName}_${className}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate PDF from the form container
+            const element = document.getElementById('printable-area');
+            
+            // Temporary hide the button from PDF
+            const buttons = document.querySelectorAll('.no-print');
+            buttons.forEach(btn => btn.style.display = 'none');
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore button visibility after download
+                buttons.forEach(btn => btn.style.display = 'block');
+                alert("Form Submitted Successfully! Your PDF is downloading.");
+            });
+        });
+    </script>
 </body>
 </html>
-                        
