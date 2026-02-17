@@ -396,7 +396,7 @@
     <p style="margin:0;">Need help? Contact the School Office: <strong>+91-7006261694</strong></p>
   </footer>
 
-  <script>
+  <script>         
 (function() {
     const form = document.getElementById('admissionForm');
     const photoPreview = document.getElementById('photoPreview');
@@ -437,121 +437,43 @@
         span.style.width = "100%";
         span.innerText = val && val.trim() !== "" ? val : "__________";
         return span;
-    }
-
-    async function generatePdf() {
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        const studentName = document.getElementById('studentName').value || "Student";
-        const safeStudentName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        const element = document.getElementById('printable-area');
-        const clone = element.cloneNode(true);
-
-        // Process inputs and selects into text for the PDF
-        const originals = element.querySelectorAll("input:not([type='file']), select");
-        const clonedInputs = clone.querySelectorAll("input:not([type='file']), select");
-
-        originals.forEach((orig, i) => {
-            const target = clonedInputs[i];
-            if (!target) return;
-            let val = (orig.tagName === "SELECT") ? orig.options[orig.selectedIndex]?.text : orig.value;
-            target.parentElement.replaceChild(createValueBlock(val), target);
-        });
-
-        // Handle Photo in PDF
-        const cImg = clone.querySelector("#photoPreview");
-        if (photoPreview.src && photoPreview.src.startsWith("data:image")) {
-            cImg.src = photoPreview.src;
-            cImg.style.display = "block";
-            clone.querySelector("#uploadIcon")?.remove();
-            clone.querySelector("#uploadText")?.remove();
-        } else {
-            cImg?.remove();
-        }
-
-        // Clean up UI elements from clone
-        clone.querySelector("#photoInput")?.remove();
-        clone.querySelectorAll(".no-print").forEach(el => el.remove());
-
-        const staging = document.createElement("div");
-        staging.style.position = "fixed";
-        staging.style.left = "-10000px";
-        staging.style.top = "0";
-        staging.style.width = "800px";
-        staging.style.background = "#ffffff";
-        staging.appendChild(clone);
-        document.body.appendChild(staging);
-
-        const opt = {
-            margin: 10,
-            filename: `Admission_${safeStudentName}.pdf`,
-            image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-        };
-
-        try {
-            toggleButtons(true);
-            await html2pdf().set(opt).from(clone).save();
-        } catch (err) {
-            console.error(err);
-            alert("PDF Generation Failed.");
-        } finally {
-            document.body.removeChild(staging);
-            toggleButtons(false);
-        }
-    }
-
-    function toggleButtons(disabled) {
-        const btns = [submitBtn, stickySubmitBtn];
-        btns.forEach(btn => {
-            if (!btn) return;
-            btn.disabled = disabled;
-            btn.innerHTML = disabled ? '<i class="fas fa-spinner fa-spin"></i> Generating...' : "Submit & Download Pre-filled PDF Form";
-        });
-    }
-
-    // Single source of truth for submission
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        generatePdf();
-    });
-
-    if (stickySubmitBtn) {
-        stickySubmitBtn.addEventListener("click", () => {
-            if(form.reportValidity()) generatePdf();
-        });
-    }
-})();
-</script>
-
-  
-  <script>
 (function() {
     const form = document.getElementById('admissionForm');
+    const photoInput = document.getElementById('photoInput'); // Ensure your HTML has this ID
     const photoPreview = document.getElementById('photoPreview');
     const submitBtn = document.querySelector('.btn-submit');
     const stickySubmitBtn = document.getElementById('stickySubmitBtn');
 
-    // 1. Helper: Restrict input to digits only (Fixes Aadhaar Issue)
+    // --- FIX 1: PHOTO UPLOAD LOGIC ---
+    if (photoInput) {
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    photoPreview.src = event.target.result;
+                    photoPreview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Helper: Restrict input to digits only
     function digitsOnly(id) {
         const el = document.getElementById(id);
         if (!el) return;
         el.addEventListener("input", () => {
-            // Corrected regex: single backslash for non-digits
             el.value = el.value.replace(/\D/g, "");
         });
     }
 
-    // Apply digit restriction to specific fields
+    // Apply to fields (Ensure HTML maxlength is set to 12 for Aadhaar)
     digitsOnly("aadhaarNumber");
     digitsOnly("fatherContact");
     digitsOnly("motherContact");
 
-    // 2. Helper: Auto uppercase IFSC
+    // Helper: Auto uppercase IFSC
     const ifsc = document.getElementById("ifsc");
     if (ifsc) {
         ifsc.addEventListener("input", () => {
@@ -559,13 +481,11 @@
         });
     }
 
-    // 3. PDF Generation Logic
     function createValueBlock(val) {
         const span = document.createElement("span");
         span.style.display = "inline-block";
         span.style.padding = "8px 0";
         span.style.fontWeight = "bold";
-        span.style.color = "#000";
         span.style.borderBottom = "1px solid #eee";
         span.style.width = "100%";
         span.innerText = val && val.trim() !== "" ? val : "__________";
@@ -581,9 +501,10 @@
         const studentName = document.getElementById('studentName').value || "Student";
         const safeStudentName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
         const element = document.getElementById('printable-area');
+        
+        // Deep clone the area to be printed
         const clone = element.cloneNode(true);
 
-        // Process inputs and selects into text for the PDF
         const originals = element.querySelectorAll("input:not([type='file']), select");
         const clonedInputs = clone.querySelectorAll("input:not([type='file']), select");
 
@@ -594,35 +515,22 @@
             target.parentElement.replaceChild(createValueBlock(val), target);
         });
 
-        // Handle Photo in PDF
+        // Handle Photo in PDF clone
         const cImg = clone.querySelector("#photoPreview");
-        if (photoPreview.src && photoPreview.src.startsWith("data:image")) {
+        if (photoPreview && photoPreview.src && photoPreview.src.startsWith("data:image")) {
             cImg.src = photoPreview.src;
             cImg.style.display = "block";
             clone.querySelector("#uploadIcon")?.remove();
             clone.querySelector("#uploadText")?.remove();
-        } else {
-            cImg?.remove();
         }
 
-        // Clean up UI elements from clone
-        clone.querySelector("#photoInput")?.remove();
-        clone.querySelectorAll(".no-print").forEach(el => el.remove());
-
-        const staging = document.createElement("div");
-        staging.style.position = "fixed";
-        staging.style.left = "-10000px";
-        staging.style.top = "0";
-        staging.style.width = "800px";
-        staging.style.background = "#ffffff";
-        staging.appendChild(clone);
-        document.body.appendChild(staging);
+        clone.querySelectorAll(".no-print, #photoInput").forEach(el => el.remove());
 
         const opt = {
             margin: 10,
             filename: `Admission_${safeStudentName}.pdf`,
             image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+            html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
         };
 
@@ -633,28 +541,26 @@
             console.error(err);
             alert("PDF Generation Failed.");
         } finally {
-            document.body.removeChild(staging);
             toggleButtons(false);
         }
     }
 
     function toggleButtons(disabled) {
-        const btns = [submitBtn, stickySubmitBtn];
-        btns.forEach(btn => {
+        [submitBtn, stickySubmitBtn].forEach(btn => {
             if (!btn) return;
             btn.disabled = disabled;
-            btn.innerHTML = disabled ? '<i class="fas fa-spinner fa-spin"></i> Generating...' : "Submit & Download Pre-filled PDF Form";
+            btn.innerHTML = disabled ? 'Generating...' : "Submit & Download PDF";
         });
     }
 
-    // Single source of truth for submission
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         generatePdf();
     });
 
     if (stickySubmitBtn) {
-        stickySubmitBtn.addEventListener("click", () => {
+        stickySubmitBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             if(form.reportValidity()) generatePdf();
         });
     }
