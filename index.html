@@ -12,45 +12,54 @@
     <style>
         /* FIX: Footer visibility & margin issues */
         body { 
-            padding-bottom: 120px; 
+            padding-bottom: 140px; 
             background-color: #f4f7f6;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* PDF TEMPLATE STYLING - Ensuring visibility for the generator */
+        /* PDF TEMPLATE STYLING - High contrast for generator visibility */
         .pdf-print-area { 
             color: #000 !important; 
             background: #ffffff !important; 
             width: 750px; 
-            padding: 40px; 
+            padding: 50px; 
             font-family: 'Times New Roman', serif; 
             border: 8px double #0d47a1;
             line-height: 1.6;
+            visibility: visible !important;
         }
 
         /* AI ASSISTANT STYLING */
         #aiModal { 
             display: none; 
             position: fixed; 
-            bottom: 90px; 
+            bottom: 100px; 
             right: 20px; 
             width: 320px; 
             background: white; 
             border-radius: 12px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-            z-index: 2000; 
+            z-index: 9999; 
             border: 1px solid #0d47a1; 
         }
         #aiHeader { background: #0d47a1; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; }
-        #aiBody { height: 200px; padding: 15px; overflow-y: auto; font-size: 0.9rem; color: #333; }
+        #aiBody { height: 220px; padding: 15px; overflow-y: auto; font-size: 0.9rem; color: #333; }
         .ai-input-group { display: flex; border-top: 1px solid #ddd; }
         #aiInput { border: none; flex: 1; padding: 12px; outline: none; }
-        #aiSubmitBtn { background: #0d47a1; color: white; border: none; padding: 0 15px; cursor: pointer; }
+        #aiSubmitBtn { background: #0d47a1; color: white; border: none; padding: 0 15px; cursor: pointer; transition: 0.3s; }
+        #aiSubmitBtn:hover { background: #083375; }
 
-        /* NAVIGATION */
-        #mainNav { display: none; background: #1a3c5a; width: 100%; }
-        #mainNav.active { display: block !important; }
+        /* NAVIGATION & LARGE MENU HANDLING */
+        #mainNav { display: none; background: #1a3c5a; width: 100%; border-bottom: 2px solid #ffcc00; }
+        #mainNav.active { display: block !important; max-height: 75vh; overflow-y: auto; }
+        .nav-links { list-style: none; padding: 0; margin: 0; }
+        .nav-links li { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-links li a, .dropbtn { color: white; text-decoration: none; padding: 15px 20px; display: block; font-weight: 500; cursor: pointer; }
+        
         .dropdown-content { display: none; background-color: #0d2137; width: 100%; position: relative; }
         .dropdown-content.active-submenu { display: block !important; }
+        .dropdown-content a { padding-left: 40px !important; font-size: 0.9rem; color: #e0e0e0 !important; background: #091a2b; border-bottom: 1px solid #1a3c5a; }
     </style>
 </head>
 
@@ -67,11 +76,10 @@
     <div id="liveDateTime"></div>
 </header>
 
-<div class="menu-toggle" onclick="toggleMobileMenu()" style="cursor: pointer; padding: 15px; background: #0d47a1; color: white; text-align: center; font-weight: bold;">
+<div class="menu-toggle" onclick="toggleMobileMenu()" style="cursor: pointer; padding: 15px; background: #0d47a1; color: white; text-align: center; font-weight: bold; letter-spacing: 1px;">
     ☰ CLICK FOR MENU
 </div>
 
-<nav id="mainNav">
 <nav id="mainNav">
     <ul class="nav-links">
         <li><a href="#home">Home</a></li>
@@ -146,7 +154,6 @@
     </ul>
 </nav>
 
-
 <main>
     <section class="hero" id="home">
         <h2>Smart AI-Based School Portal</h2>
@@ -156,7 +163,7 @@
 
     <div id="aiModal">
         <div id="aiHeader"><span>AI Assistant</span><span onclick="chatToggle()" style="cursor:pointer">×</span></div>
-        <div id="aiBody">How can I help you today?</div>
+        <div id="aiBody">How can I help you today? You can ask about generating certificates or checking school records.</div>
         <div class="ai-input-group">
             <input type="text" id="aiInput" placeholder="Type your query..." onkeypress="if(event.key === 'Enter') handleAI()">
             <button id="aiSubmitBtn" onclick="handleAI()">SEND</button>
@@ -173,24 +180,24 @@
             </select>
             <input type="text" id="mainName" placeholder="Full Name (Mr./Ms.)">
             <input type="text" id="detail1" placeholder="Designation / Class">
-            <input type="text" id="detail2" placeholder="Official Record / Period">
-            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold; width: 100%; margin-top: 10px;">Download Official PDF</button>
+            <input type="text" id="detail2" placeholder="Position / Year / Period">
+            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer; padding: 12px; border: none; border-radius: 5px;">Download Official PDF</button>
         </div>
     </section>
 
     <div style="position: absolute; left: -9999px; top: 0;">
         <div id="master-template" class="pdf-print-area">
             <center>
-                <h2 style="margin:0; font-size: 20px;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h2>
-                <p style="margin:2px;"><b>School Code: 01022202207</b></p>
-                <p style="margin:2px;">Pethgam Wagoora, District Baramulla – 193109</p>
-                <p style="margin:2px;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
+                <h2 style="margin:0; font-size: 20px; color: #000;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h2>
+                <p style="margin:2px; color: #000;"><b>School Code: 01022202207</b></p>
+                <p style="margin:2px; color: #000;">Pethgam Wagoora, District Baramulla – 193109</p>
+                <p style="margin:2px; color: #000;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
                 <hr style="border: 1px solid #000; margin: 15px 0;">
             </center>
             
-            <div id="pdf-content-body" style="font-size: 16px;"></div>
+            <div id="pdf-content-body" style="font-size: 16px; color: #000;"></div>
             
-            <div style="margin-top: 60px;">
+            <div style="margin-top: 60px; color: #000;">
                 <p><b>Signature of Headmaster</b></p>
                 <p>Name: __________________________</p>
                 <p>Designation: Headmaster</p>
@@ -200,37 +207,59 @@
     </div>
 </main>
 
-<footer style="background: #0d2137; color: white; padding: 25px; text-align: center; border-top: 3px solid #ffcc00;">
-    <p><b>GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</b></p>
-    <p>Pethgam Wagoora, District Baramulla – 193109</p>
-    <p style="font-size: 0.8rem; opacity: 0.8;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
+<footer style="background: #0d2137; color: white; padding: 30px 20px; text-align: center; border-top: 4px solid #ffcc00;">
+    <p style="margin: 5px 0; font-weight: bold;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</p>
+    <p style="margin: 5px 0;">Pethgam Wagoora, District Baramulla – 193109</p>
+    <p style="font-size: 0.85rem; opacity: 0.9;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
 </footer>
 
 <script>
-    function toggleMobileMenu() { document.getElementById('mainNav').classList.toggle('active'); }
+    // MENU CONTROLS
+    function toggleMobileMenu() { 
+        document.getElementById('mainNav').classList.toggle('active'); 
+    }
+    
     function toggleSubMenu(el) {
         const content = el.nextElementSibling;
-        document.querySelectorAll('.dropdown-content').forEach(sub => { if (sub !== content) sub.classList.remove('active-submenu'); });
+        document.querySelectorAll('.dropdown-content').forEach(sub => { 
+            if (sub !== content) sub.classList.remove('active-submenu'); 
+        });
         content.classList.toggle('active-submenu');
     }
 
-    function chatToggle() { document.getElementById('aiModal').style.display = (document.getElementById('aiModal').style.display === "block") ? "none" : "block"; }
+    // AI ASSISTANT LOGIC
+    function chatToggle() { 
+        const m = document.getElementById('aiModal'); 
+        m.style.display = (m.style.display === "block") ? "none" : "block"; 
+    }
+
     function handleAI() {
         const input = document.getElementById('aiInput');
         const body = document.getElementById('aiBody');
-        if(!input.value) return;
-        body.innerHTML += `<div style="text-align:right; margin-bottom:5px;"><b>You:</b> ${input.value}</div>`;
-        setTimeout(() => { body.innerHTML += `<div style="color:#0d47a1;"><b>AI:</b> Processing your request... please fill the details below.</div>`; body.scrollTop = body.scrollHeight; }, 400);
+        if(!input.value.trim()) return;
+        
+        body.innerHTML += `<div style="text-align:right; margin-bottom:10px; color:#0d47a1;"><b>You:</b> ${input.value}</div>`;
+        const val = input.value.toLowerCase();
+        
+        setTimeout(() => {
+            let reply = "I've logged your request. Please use the 'Document Engine' to generate certificates.";
+            if(val.includes("duty")) reply = "To generate a Duty Certificate, select 'Duty Certificate' in the Document Engine below.";
+            if(val.includes("staff")) reply = "Staff statements are available under the Administration menu.";
+            
+            body.innerHTML += `<div style="margin-bottom:10px; padding: 8px; background: #eee; border-radius: 5px;"><b>AI:</b> ${reply}</div>`;
+            body.scrollTop = body.scrollHeight;
+        }, 500);
         input.value = "";
     }
 
+    // PDF GENERATION LOGIC
     function masterGeneratePDF() {
         const type = document.getElementById('docType').value;
         const name = document.getElementById('mainName').value.trim();
         const d1 = document.getElementById('detail1').value.trim();
         const d2 = document.getElementById('detail2').value.trim();
 
-        if(!name || !d1) return alert("Please fill Name and Details.");
+        if(!name || !d1) return alert("Please fill Name and Designation/Class.");
 
         const body = document.getElementById('pdf-content-body');
         const today = new Date().toLocaleDateString('en-GB');
@@ -246,27 +275,41 @@
                 <p>This certificate is issued on request for official record and necessary action.</p>
             `;
         } else if(type === 'bonafide') {
-            body.innerHTML = `<center><h3 style="text-decoration: underline;">BONAFIDE CERTIFICATE</h3></center>
+            body.innerHTML = `
+                <center><h3 style="text-decoration: underline;">BONAFIDE CERTIFICATE</h3></center>
                 <p>Date: ${today}</p>
-                <p>This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> at this school under Roll No: <b>${d2}</b>.</p>`;
-        } else {
-            body.innerHTML = `<center><h3 style="text-decoration: underline;">MARKS SHEET</h3></center>
+                <p>This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> at this institution under Roll No: <b>${d2}</b>.</p>
+                <p>His/Her character and conduct during the stay in the school has been found satisfactory.</p>
+            `;
+        } else if(type === 'marksheet') {
+            body.innerHTML = `
+                <center><h3 style="text-decoration: underline;">PROGRESS REPORT / MARKS SHEET</h3></center>
                 <p>Name: <b>${name.toUpperCase()}</b> | Class: <b>${d1}</b></p>
-                <p>Academic session details: <b>${d2}</b></p>`;
+                <p>Academic Session: <b>${d2}</b></p>
+                <table style="width:100%; border-collapse: collapse; margin-top:20px;">
+                    <tr style="background:#f2f2f2;"><th style="border:1px solid #000; padding:8px;">Subject</th><th style="border:1px solid #000; padding:8px;">Marks</th></tr>
+                    <tr><td style="border:1px solid #000; padding:8px;">General Performance</td><td style="border:1px solid #000; padding:8px;">Excellent</td></tr>
+                </table>
+            `;
         }
 
         const element = document.getElementById('master-template');
-        // Setting useCORS and ensuring element is visible to script
-        html2pdf().set({
+        
+        const opt = {
             margin: 0.5,
-            filename: `${type}_${name}.pdf`,
+            filename: `${type}_${name.replace(/\s+/g, '_')}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true, logging: false },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        }).from(element).save();
+        };
+
+        html2pdf().set(opt).from(element).save();
     }
 
-    setInterval(() => { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN'); }, 1000);
+    // CLOCK
+    setInterval(() => { 
+        document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }); 
+    }, 1000);
 </script>
 
 </body>
