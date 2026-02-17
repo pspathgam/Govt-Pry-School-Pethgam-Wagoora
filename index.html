@@ -10,36 +10,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* FIX 1: Footer Visibility - Ensuring enough space at bottom */
-        body { padding-bottom: 100px; }
-        
-        /* PDF PRINT AREA STYLING */
+        /* FIX: Footer visibility & margin issues */
+        body { 
+            padding-bottom: 120px; 
+            background-color: #f4f7f6;
+        }
+
+        /* PDF TEMPLATE STYLING - Ensuring visibility for the generator */
         .pdf-print-area { 
             color: #000 !important; 
-            background: #fff !important; 
-            width: 800px; 
-            padding: 50px; 
+            background: #ffffff !important; 
+            width: 750px; 
+            padding: 40px; 
             font-family: 'Times New Roman', serif; 
-            border: 10px double #0d47a1; 
+            border: 8px double #0d47a1;
+            line-height: 1.6;
         }
-        .pdf-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 8px; text-align: left; color: #000; }
-        
-        /* MENU & DROPDOWN LOGIC */
+
+        /* AI ASSISTANT STYLING */
+        #aiModal { 
+            display: none; 
+            position: fixed; 
+            bottom: 90px; 
+            right: 20px; 
+            width: 320px; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            z-index: 2000; 
+            border: 1px solid #0d47a1; 
+        }
+        #aiHeader { background: #0d47a1; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; }
+        #aiBody { height: 200px; padding: 15px; overflow-y: auto; font-size: 0.9rem; color: #333; }
+        .ai-input-group { display: flex; border-top: 1px solid #ddd; }
+        #aiInput { border: none; flex: 1; padding: 12px; outline: none; }
+        #aiSubmitBtn { background: #0d47a1; color: white; border: none; padding: 0 15px; cursor: pointer; }
+
+        /* NAVIGATION */
         #mainNav { display: none; background: #1a3c5a; width: 100%; }
         #mainNav.active { display: block !important; }
         .dropdown-content { display: none; background-color: #0d2137; width: 100%; position: relative; }
         .dropdown-content.active-submenu { display: block !important; }
-        .nav-links { display: flex; flex-direction: column; padding: 0; margin: 0; list-style: none; }
-        .dropbtn, .nav-links li a { padding: 15px 20px; display: block; color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-
-        /* FIX 2: AI ASSISTANT WITH SUBMIT BUTTON */
-        #aiModal { display: none; position: fixed; bottom: 90px; right: 20px; width: 320px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 2000; border: 1px solid #0d47a1; overflow: hidden; }
-        #aiHeader { background: #0d47a1; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        #aiBody { height: 200px; padding: 15px; overflow-y: auto; font-size: 0.9rem; color: #333; background: #f9f9f9; }
-        .ai-input-container { display: flex; border-top: 1px solid #ddd; }
-        #aiInput { border: none; flex-grow: 1; padding: 12px; outline: none; }
-        #aiSubmitBtn { background: #0d47a1; color: white; border: none; padding: 0 15px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 
@@ -53,7 +64,7 @@
             <p class="sub-header">SMART MANAGEMENT SYSTEM 2026</p>
         </div>
     </div>
-    <div id="liveDateTime" aria-live="polite"></div>
+    <div id="liveDateTime"></div>
 </header>
 
 <div class="menu-toggle" onclick="toggleMobileMenu()" style="cursor: pointer; padding: 15px; background: #0d47a1; color: white; text-align: center; font-weight: bold;">
@@ -84,14 +95,14 @@
 <main>
     <section class="hero" id="home">
         <h2>Smart AI-Based School Portal</h2>
-        <p>Seamlessly generate Official Certificates and Reports.</p>
+        <p>Reliable generation of official school certificates and records.</p>
         <button type="button" class="btn-ai" onclick="chatToggle()">Ask AI Assistant</button>
     </section>
 
     <div id="aiModal">
         <div id="aiHeader"><span>AI Assistant</span><span onclick="chatToggle()" style="cursor:pointer">×</span></div>
-        <div id="aiBody">How can I assist you with school documentation today?</div>
-        <div class="ai-input-container">
+        <div id="aiBody">How can I help you today?</div>
+        <div class="ai-input-group">
             <input type="text" id="aiInput" placeholder="Type your query..." onkeypress="if(event.key === 'Enter') handleAI()">
             <button id="aiSubmitBtn" onclick="handleAI()">SEND</button>
         </div>
@@ -100,39 +111,31 @@
     <section class="cards" id="quick-actions">
         <div class="card" id="generator-section">
             <h3>📜 Document Engine</h3>
-            <select id="docType" onchange="updatePlaceholders()">
+            <select id="docType">
                 <option value="duty">Duty Certificate</option>
                 <option value="bonafide">Bonafide Certificate</option>
                 <option value="marksheet">Marks Sheet</option>
             </select>
-            <input type="text" id="mainName" placeholder="Name (Mr./Ms.)">
+            <input type="text" id="mainName" placeholder="Full Name (Mr./Ms.)">
             <input type="text" id="detail1" placeholder="Designation / Class">
-            <input type="text" id="detail2" placeholder="Position / Period">
-            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold; width: 100%; margin-top: 10px; cursor: pointer;">Download Official PDF</button>
-        </div>
-
-        <div class="card">
-            <h3>🌤 Weather & Notices</h3>
-            <p id="weather">Fetching weather...</p>
-            <hr>
-            <p style="font-size: 0.85rem;">📢 Notice: Admissions 2026 Session starting soon.</p>
+            <input type="text" id="detail2" placeholder="Official Record / Period">
+            <button onclick="masterGeneratePDF()" class="pdf-btn" style="background: #ffcc00; color: #000; font-weight: bold; width: 100%; margin-top: 10px;">Download Official PDF</button>
         </div>
     </section>
 
-    <div style="position: absolute; left: -9999px; top: 0; background: #fff;">
+    <div style="position: absolute; left: -9999px; top: 0;">
         <div id="master-template" class="pdf-print-area">
             <center>
-                <h1 style="margin:0; font-size: 22px;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h1>
+                <h2 style="margin:0; font-size: 20px;">GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</h2>
                 <p style="margin:2px;"><b>School Code: 01022202207</b></p>
                 <p style="margin:2px;">Pethgam Wagoora, District Baramulla – 193109</p>
                 <p style="margin:2px;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
                 <hr style="border: 1px solid #000; margin: 15px 0;">
-                <h2 id="pdf-header-title" style="text-decoration: underline; letter-spacing: 2px;"></h2>
             </center>
             
-            <div id="pdf-dynamic-content" style="min-height: 350px; color: #000; margin-top: 30px; font-size: 18px; line-height: 2;"></div>
+            <div id="pdf-content-body" style="font-size: 16px;"></div>
             
-            <div style="margin-top: 50px;">
+            <div style="margin-top: 60px;">
                 <p><b>Signature of Headmaster</b></p>
                 <p>Name: __________________________</p>
                 <p>Designation: Headmaster</p>
@@ -142,13 +145,13 @@
     </div>
 </main>
 
-<footer style="background: #0d2137; color: white; padding: 20px; text-align: center;">
-    <p>© 2026 Government Primary School Pethgam Wagoora</p>
-    <p style="font-size: 0.85rem; opacity: 0.9;">Pethgam Wagoora, District Baramulla – 193109 | Email: pspethgam@gmail.com</p>
+<footer style="background: #0d2137; color: white; padding: 25px; text-align: center; border-top: 3px solid #ffcc00;">
+    <p><b>GOVERNMENT PRIMARY SCHOOL PETHGAM WAGOORA</b></p>
+    <p>Pethgam Wagoora, District Baramulla – 193109</p>
+    <p style="font-size: 0.8rem; opacity: 0.8;">Email: pspethgam@gmail.com | Contact: 9596449881</p>
 </footer>
 
 <script>
-    /* MENU LOGIC */
     function toggleMobileMenu() { document.getElementById('mainNav').classList.toggle('active'); }
     function toggleSubMenu(el) {
         const content = el.nextElementSibling;
@@ -156,57 +159,59 @@
         content.classList.toggle('active-submenu');
     }
 
-    /* AI LOGIC */
-    function chatToggle() { 
-        const m = document.getElementById('aiModal'); 
-        m.style.display = (m.style.display === "block") ? "none" : "block"; 
-    }
+    function chatToggle() { document.getElementById('aiModal').style.display = (document.getElementById('aiModal').style.display === "block") ? "none" : "block"; }
     function handleAI() {
         const input = document.getElementById('aiInput');
         const body = document.getElementById('aiBody');
         if(!input.value) return;
-        body.innerHTML += `<div style="text-align:right; margin-bottom:10px;"><b>You:</b> ${input.value}</div>`;
-        setTimeout(() => {
-            body.innerHTML += `<div style="color:#0d47a1; margin-bottom:10px;"><b>AI:</b> I've prepared the document generator for your request. Please fill the fields below.</div>`;
-            body.scrollTop = body.scrollHeight;
-        }, 500);
+        body.innerHTML += `<div style="text-align:right; margin-bottom:5px;"><b>You:</b> ${input.value}</div>`;
+        setTimeout(() => { body.innerHTML += `<div style="color:#0d47a1;"><b>AI:</b> Processing your request... please fill the details below.</div>`; body.scrollTop = body.scrollHeight; }, 400);
         input.value = "";
     }
 
-    /* PDF GENERATOR - ADDED DUTY CERTIFICATE TEMPLATE */
     function masterGeneratePDF() {
         const type = document.getElementById('docType').value;
-        const name = document.getElementById('mainName').value;
-        const d1 = document.getElementById('detail1').value; // Designation
-        const d2 = document.getElementById('detail2').value; // Position/Period
+        const name = document.getElementById('mainName').value.trim();
+        const d1 = document.getElementById('detail1').value.trim();
+        const d2 = document.getElementById('detail2').value.trim();
 
-        if(!name || !d1) return alert("Please fill Name and Designation.");
+        if(!name || !d1) return alert("Please fill Name and Details.");
 
-        const headerTitle = document.getElementById('pdf-header-title');
-        const content = document.getElementById('pdf-dynamic-content');
-        
+        const body = document.getElementById('pdf-content-body');
+        const today = new Date().toLocaleDateString('en-GB');
+
         if(type === 'duty') {
-            headerTitle.innerText = "DUTY CERTIFICATE";
-            content.innerHTML = `
-                <p>Certificate No.: ____________ &nbsp;&nbsp;&nbsp;&nbsp; Date: ${new Date().toLocaleDateString('en-IN')}</p>
-                <p>This is to certify that Mr./Ms. <b>${name.toUpperCase()}</b>,<br>
-                Designation: <b>${d1}</b>,<br>
-                has performed official duty at Government Primary School Pethgam Wagoora with effect from <b>________</b> to <b>________</b> in the position of <b>${d2}</b>.</p>
+            body.innerHTML = `
+                <center><h3 style="text-decoration: underline;">DUTY CERTIFICATE</h3></center>
+                <p>Certificate No.: GPS/PW/2026/____ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: ${today}</p>
+                <p>This is to certify that Mr./Ms. <b>${name.toUpperCase()}</b>,</p>
+                <p>Designation: <b>${d1}</b>,</p>
+                <p>has performed official duty at Government Primary School Pethgam Wagoora with effect from <b>_________</b> to <b>_________</b> in the position of <b>${d2}</b>.</p>
                 <p>During the above-mentioned period, he/she carried out the assigned responsibilities diligently and satisfactorily.</p>
                 <p>This certificate is issued on request for official record and necessary action.</p>
             `;
+        } else if(type === 'bonafide') {
+            body.innerHTML = `<center><h3 style="text-decoration: underline;">BONAFIDE CERTIFICATE</h3></center>
+                <p>Date: ${today}</p>
+                <p>This is to certify that <b>${name.toUpperCase()}</b> is a bonafide student of Class <b>${d1}</b> at this school under Roll No: <b>${d2}</b>.</p>`;
         } else {
-            headerTitle.innerText = type.toUpperCase() + " CERTIFICATE";
-            content.innerHTML = `<p>This is to certify that ${name} of ${d1} has performed satisfactorily.</p>`;
+            body.innerHTML = `<center><h3 style="text-decoration: underline;">MARKS SHEET</h3></center>
+                <p>Name: <b>${name.toUpperCase()}</b> | Class: <b>${d1}</b></p>
+                <p>Academic session details: <b>${d2}</b></p>`;
         }
 
         const element = document.getElementById('master-template');
-        html2pdf().set({ margin: 0.5, filename: `${type}_${name}.pdf`, html2canvas: { scale: 2 }, jsPDF: { format: 'a4' } }).from(element).save();
+        // Setting useCORS and ensuring element is visible to script
+        html2pdf().set({
+            margin: 0.5,
+            filename: `${type}_${name}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(element).save();
     }
 
-    function updateClock() { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN'); }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(() => { document.getElementById('liveDateTime').innerText = new Date().toLocaleString('en-IN'); }, 1000);
 </script>
 
 </body>
