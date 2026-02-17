@@ -37,9 +37,8 @@
         .form-row .form-group { flex: 1; min-width: 200px; }
         
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; background: #fff; }
         
-        /* Photo Upload Style */
         .photo-upload-container {
             display: flex; justify-content: flex-end; margin-bottom: -100px; position: relative; z-index: 10;
         }
@@ -75,10 +74,10 @@
         <div class="no-print">
             <h2 style="text-align: center; color: var(--primary-color);">Our 4-Step Admission Process</h2>
             <div class="steps">
-                <div class="step-card"><span class="step-num">1</span><h3>Online Form</h3><p>Fill out all specific details.</p></div>
-                <div class="step-card"><span class="step-num">2</span><h3>Download PDF</h3><p>Get pre-filled official form.</p></div>
-                <div class="step-card"><span class="step-num">3</span><h3>Printout</h3><p>Take hard copy for signing.</p></div>
-                <div class="step-card"><span class="step-num">4</span><h3>Submission</h3><p>Submit at office with certificates.</p></div>
+                <div class="step-card"><span class="step-num">1</span><h3>Online Form</h3><p>Fill out all details.</p></div>
+                <div class="step-card"><span class="step-num">2</span><h3>Download PDF</h3><p>Get pre-filled form.</p></div>
+                <div class="step-card"><span class="step-num">3</span><h3>Printout</h3><p>Physical signing.</p></div>
+                <div class="step-card"><span class="step-num">4</span><h3>Submission</h3><p>Submit at office.</p></div>
             </div>
         </div>
 
@@ -98,8 +97,8 @@
             <form id="admissionForm">
                 <div class="form-section-title">1. Student Identity</div>
                 <div class="form-group">
-                    <label>Student's Name (First - Middle - Last)</label>
-                    <input type="text" id="studentName" placeholder="Full Name as per School Records" required>
+                    <label>Student's Name</label>
+                    <input type="text" id="studentName" placeholder="Full Name" required>
                 </div>
                 <div class="form-group">
                     <label>Name as per Aadhaar Card</label>
@@ -108,26 +107,22 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Aadhaar Number</label>
-                        <input type="text" pattern="\d{12}" maxlength="12" placeholder="12 Digit Aadhaar No." required>
+                        <input type="text" pattern="\d{12}" maxlength="12" placeholder="12 Digit Aadhaar" required>
                     </div>
                     <div class="form-group">
-                        <label>Date of Birth (in figures)</label>
+                        <label>Date of Birth</label>
                         <input type="date" required>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Date of Birth in Words</label>
-                    <input type="text" placeholder="Example: Tenth of August Two Thousand Sixteen">
                 </div>
 
                 <div class="form-section-title">2. Family Details</div>
                 <div class="form-row">
                     <div class="form-group"><label>Father's Name</label><input type="text" required></div>
-                    <div class="form-group"><label>Father's Contact Number</label><input type="tel" pattern="\d{10}" required></div>
+                    <div class="form-group"><label>Father's Contact</label><input type="tel" pattern="\d{10}" required></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Mother's Name</label><input type="text" required></div>
-                    <div class="form-group"><label>Mother's Contact Number</label><input type="tel" pattern="\d{10}"></div>
+                    <div class="form-group"><label>Mother's Contact</label><input type="tel" pattern="\d{10}"></div>
                 </div>
 
                 <div class="form-section-title">3. Residence & Academic Info</div>
@@ -166,9 +161,9 @@
                     <strong>Parents Declaration:</strong> I do hereby declare that the above information is true to the best of my knowledge and belief.
                 </div>
                 
-                <div style="margin-top: 50px; display: flex; justify-content: space-between; padding-bottom: 20px;">
-                    <p style="border-top: 1px solid #000; width: 200px; text-align: center;">Parent's Signature</p>
-                    <p style="border-top: 1px solid #000; width: 200px; text-align: center;">Headmaster Seal</p>
+                <div style="margin-top: 60px; display: flex; justify-content: space-between; padding-bottom: 20px;">
+                    <p style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">Parent's Signature</p>
+                    <p style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">Headmaster Seal</p>
                 </div>
 
                 <button type="submit" class="btn-submit no-print">Submit & Download Pre-filled PDF Form</button>
@@ -185,8 +180,9 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('photoPreview').src = e.target.result;
-                    document.getElementById('photoPreview').style.display = 'block';
+                    const img = document.getElementById('photoPreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
                     document.getElementById('uploadIcon').style.display = 'none';
                     document.getElementById('uploadText').style.display = 'none';
                 }
@@ -197,39 +193,50 @@
         document.getElementById('admissionForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // FIX: Set values as attributes so html2pdf can "see" them
-            const inputs = this.querySelectorAll('input, select');
-            inputs.forEach(input => {
-                if (input.type !== 'file') {
-                    input.setAttribute('value', input.value);
-                    if(input.tagName === 'SELECT') {
-                        const selectedText = input.options[input.selectedIndex].text;
-                        input.setAttribute('value', selectedText);
-                    }
-                }
+            const studentName = document.getElementById('studentName').value || 'Student';
+            const element = document.getElementById('printable-area');
+            
+            // Step 1: Clone the area to avoid messing up the live form
+            const clone = element.cloneNode(true);
+            
+            // Step 2: Replace all inputs/selects in the clone with actual text values
+            const originalInputs = element.querySelectorAll('input, select');
+            const clonedInputs = clone.querySelectorAll('input, select');
+            
+            originalInputs.forEach((original, index) => {
+                const parent = clonedInputs[index].parentElement;
+                const val = original.value;
+                const textSpan = document.createElement('span');
+                textSpan.style.display = 'inline-block';
+                textSpan.style.padding = '8px 0';
+                textSpan.style.fontWeight = 'bold';
+                textSpan.style.color = '#000';
+                textSpan.innerText = val || '__________';
+                
+                parent.replaceChild(textSpan, clonedInputs[index]);
             });
 
-            const studentName = document.getElementById('studentName').value || 'Student';
-            const className = document.getElementById('classSelected').value || 'Form';
-            
-            const element = document.getElementById('printable-area');
+            // Step 3: Remove the "Upload" text and hidden input from the clone
+            clone.querySelector('#photoInput')?.remove();
+            if(!document.getElementById('photoPreview').src.includes('data:image')) {
+                clone.querySelector('.photo-box').style.border = '1px solid #eee';
+            }
+
+            // Step 4: PDF Options
             const opt = {
-                margin: 0.3,
-                filename: `Admission_${studentName}_${className}.pdf`,
+                margin: 0.5,
+                filename: `Admission_${studentName}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
+                html2canvas: { scale: 2, logging: false, useCORS: true },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            const buttons = document.querySelectorAll('.no-print');
-            buttons.forEach(b => b.style.display = 'none');
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                buttons.forEach(b => b.style.display = 'block');
-                alert("Form Downloaded successfully!");
+            // Step 5: Generate PDF from the CLONE
+            html2pdf().set(opt).from(clone).save().then(() => {
+                alert("Form Downloaded Successfully!");
             });
         });
     </script>
 </body>
-</html>                       
-    
+</html>
+
